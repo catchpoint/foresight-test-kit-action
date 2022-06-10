@@ -20,7 +20,7 @@ inputs:
   coverage_framework:
     description: : "Foresight Coverage Framework"
     default: ''
-    required: true
+    required: false
   coverage_path:
     description: : "Foresight Coverage Results Path"
     default: []
