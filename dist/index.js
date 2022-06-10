@@ -425,6 +425,8 @@ function run() {
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
             logger.info(`Env vars set!`);
+            logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
+            logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFramework && testPath.length > 0) {
                 try {

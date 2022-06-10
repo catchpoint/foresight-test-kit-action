@@ -31,6 +31,8 @@ async function run(): Promise<void> {
     }
     await setJobInfoEnvVar(jobInfo);
     logger.info(`Env vars set!`);
+    logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
+    logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
     await runCli.runCommand(await utils.installationCommandOfCli(cliVersion));
     if(testFramework && testPath.length > 0) {
       try {
