@@ -27,7 +27,7 @@ inputs:
     required: false
   action_disable:
     description: "Foresight Test Kit Disabled"
-    default: false
+    default: 'false'
     required: false
   cli_version:
     description: "Foresight CLI Version"
