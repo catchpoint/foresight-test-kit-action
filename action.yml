@@ -29,6 +29,10 @@ inputs:
     description: 'Foresight Test Kit Disabled'
     default: false
     required: false
+  cli_version:
+    description: 'Foresight CLI Version'
+    default: latest
+    required: false
 runs:
   using: 'node16'
   main: 'dist/index.js'
