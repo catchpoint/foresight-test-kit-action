@@ -10,19 +10,19 @@ inputs:
     description: "Foresight Api Key"
     required: true
   test_framework:
-    description: : "Foresight Test Framework"
+    description: "Foresight Test Framework"
     default: ''
     required: false
   test_path:
-    description: : "Foresight Test Results Path"
+    description: "Foresight Test Results Path"
     default: []
     required: false
   coverage_framework:
-    description: : "Foresight Coverage Framework"
+    description: "Foresight Coverage Framework"
     default: ''
     required: false
   coverage_path:
-    description: : "Foresight Coverage Results Path"
+    description: "Foresight Coverage Results Path"
     default: []
     required: false
   action_disable:
