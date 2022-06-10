@@ -322,7 +322,7 @@ function exitProcessSuccessfully() {
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
     return __awaiter(this, void 0, void 0, function* () {
-        return `npm install -g @thundra/foresight-cli@${version}`;
+        return `npm install --location=global @thundra/foresight-cli@${version}`;
     });
 }
 exports.installationCommandOfCli = installationCommandOfCli;
