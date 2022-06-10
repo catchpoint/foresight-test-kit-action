@@ -12,6 +12,7 @@ logger.info(`repo: ${repo.owner}, runId: ${runId}`);
 export async function getJobInfo(octokit: any): Promise<JobInfo> {
     const _getJobInfo = async (): Promise<JobInfo> => {
       for (let page = 0; true; page++) {
+        logger.info(`Get job info start: ${page}`);
         const result = await octokit.rest.actions.listJobsForWorkflowRun({
           owner: repo.owner,
           repo: repo.repo,

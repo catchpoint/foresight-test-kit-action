@@ -31,7 +31,7 @@ async function run(): Promise<void> {
     }
     await setJobInfoEnvVar(jobInfo);
     logger.info(`Env vars set!`);
-    utils.installationCommandOfCli(cliVersion);
+    await runCli.runCommand(await utils.installationCommandOfCli(cliVersion));
     if(testFramework && testPath.length > 0) {
       try {
         let command = await runCli.generateCommand(apiKey, FRAMEWORK_TYPES.TEST, testFramework, testPath);

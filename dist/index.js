@@ -110,6 +110,7 @@ function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
             for (let page = 0; true; page++) {
+                logger.info(`Get job info start: ${page}`);
                 const result = yield octokit.rest.actions.listJobsForWorkflowRun({
                     owner: repo.owner,
                     repo: repo.repo,
@@ -424,7 +425,7 @@ function run() {
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
             logger.info(`Env vars set!`);
-            utils.installationCommandOfCli(cliVersion);
+            yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFramework && testPath.length > 0) {
                 try {
                     let command = yield runCli.generateCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
