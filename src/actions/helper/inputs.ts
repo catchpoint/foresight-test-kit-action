@@ -4,7 +4,7 @@ import { exitProcessSuccessfully } from './utils';
 
 export function validateInputs(testFramework: string, testPath: string[], 
     coverageFramework: string, coveragePath: string[], actionDisabled: boolean) {
-    if(!actionDisabled) {
+    if(actionDisabled) {
         logger.notice("Action is disabled! Please enable to see ultimate test and coverage analyze results :)");
         exitProcessSuccessfully();
     }

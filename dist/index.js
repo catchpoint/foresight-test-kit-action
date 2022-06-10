@@ -31,7 +31,7 @@ const constants_1 = __nccwpck_require__(7306);
 const logger = __importStar(__nccwpck_require__(7854));
 const utils_1 = __nccwpck_require__(2926);
 function validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled) {
-    if (!actionDisabled) {
+    if (actionDisabled) {
         logger.notice("Action is disabled! Please enable to see ultimate test and coverage analyze results :)");
         (0, utils_1.exitProcessSuccessfully)();
     }
