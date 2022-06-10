@@ -105,7 +105,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const logger = __importStar(__nccwpck_require__(7854));
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
-logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
+logger.info(`repo: ${repo.owner}, runId: ${runId}`);
 function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
@@ -117,16 +117,16 @@ function getJobInfo(octokit) {
                     per_page: PAGE_SIZE,
                     page
                 });
-                logger.debug(`Results : ${JSON.stringify(result)}`);
+                logger.info(`Results : ${JSON.stringify(result)}`);
                 const jobs = result.data.jobs;
-                logger.debug(`Results : ${JSON.stringify(jobs)}`);
+                logger.info(`Results : ${JSON.stringify(jobs)}`);
                 // If there are no jobs, stop here
                 if (!jobs || !jobs.length) {
                     break;
                 }
                 const currentJobs = jobs.filter(it => it.status === 'in_progress' &&
                     it.runner_name === process.env.RUNNER_NAME);
-                logger.debug(`currentJobs : ${JSON.stringify(currentJobs)}`);
+                logger.info(`currentJobs : ${JSON.stringify(currentJobs)}`);
                 if (currentJobs && currentJobs.length) {
                     return {
                         id: currentJobs[0].id,
@@ -415,15 +415,15 @@ const octokit = github.getOctokit(githubToken);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            logger.debug("Start gettin job info...");
+            logger.info("Start gettin job info...");
             const jobInfo = yield (0, job_info_1.getJobInfo)(octokit);
-            logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
+            logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!");
                 utils.exitProcessSuccessfully();
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
-            logger.debug(`Env vars set!`);
+            logger.info(`Env vars set!`);
             utils.installationCommandOfCli(cliVersion);
             if (testFramework && testPath.length > 0) {
                 try {
