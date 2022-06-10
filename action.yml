@@ -1,0 +1,37 @@
+name: 'Foresight Test Kit'
+description: 'Test and Coverage ultimate analyzer'
+author: 'Thundra'
+inputs:  
+  github_token:
+    description: "GitHub API Access Token"
+    default: ${{ github.token }}
+    required: false
+  api_key: 
+    description: 'Foresight Api Key'
+    required: true
+  test_framework:
+    description: : 'Foresight Test Framework'
+    default: null
+    required: false
+  test_path:
+    description: : 'Foresight Test Results Path'
+    default: []
+    required: false
+  coverage_framework:
+    description: : 'Foresight Coverage Framework'
+    default: null
+    required: true
+  coverage_path:
+    description: : 'Foresight Coverage Results Path'
+    default: []
+    required: false
+  action_disable:
+    description: 'Foresight Test Kit Disabled'
+    default: false
+    required: false
+runs:
+  using: 'node16'
+  main: 'dist/index.js'
+branding:
+  icon: "activity"
+  color: "blue"
