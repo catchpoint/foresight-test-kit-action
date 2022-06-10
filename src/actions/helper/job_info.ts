@@ -6,6 +6,7 @@ import * as core from '@actions/core';
 
 const PAGE_SIZE = 100
 const { repo, runId } = github.context
+logger.info(`repo: ${repo.owner}, runId: ${runId}`)
 
 export async function getJobInfo(octokit: any): Promise<JobInfo> {
     const _getJobInfo = async (): Promise<JobInfo> => {

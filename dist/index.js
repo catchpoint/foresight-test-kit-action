@@ -104,6 +104,7 @@ const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
+logger.info(`repo: ${repo.owner}, runId: ${runId}`);
 function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
@@ -405,6 +406,7 @@ const coverageFramework = core.getInput('coverage_framework', { required: false 
 const coveragePath = core.getMultilineInput('coverage_path', { required: false });
 const actionDisabled = core.getBooleanInput('disable_action', { required: false });
 const cliVersion = core.getInput('cli_version', { required: false });
+logger.info(`githubToken: ${githubToken}`);
 (0, inputs_1.validateInputs)(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 const octokit = github.getOctokit(githubToken);
 function run() {
