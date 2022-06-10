@@ -10,16 +10,14 @@ import { FRAMEWORK_TYPES } from './constants';
 const octokit: Octokit = new Octokit()
 
 
-const apiKey: string = core.getInput('apikey', { required: true });
+const apiKey: string = core.getInput('api_key', { required: true });
 const testFramework: string = core.getInput('test_framework', { required: false });
 const testPath: string[] = core.getMultilineInput('test_path', { required: false });
 const coverageFramework: string = core.getInput('coverage_framework', { required: false });
 const coveragePath: string[] = core.getMultilineInput('coverage_path', { required: false });
 const actionDisabled: boolean = core.getBooleanInput('action_disabled', { required: false });
 const cliVersion: string = core.getInput('cli_version', {required: false});
-logger.info(`apikey: ${apiKey}`);
-logger.info(`testFramework: ${apiKey}`);
-logger.info(`testPath: ${testPath[0]}`);
+
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 
 async function run(): Promise<void> {
