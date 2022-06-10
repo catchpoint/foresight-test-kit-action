@@ -7,7 +7,7 @@ import * as logger from './logger';
 
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
-logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
+logger.info(`repo: ${repo.owner}, runId: ${runId}`);
 
 export async function getJobInfo(octokit: any): Promise<JobInfo> {
     const _getJobInfo = async (): Promise<JobInfo> => {
@@ -19,9 +19,9 @@ export async function getJobInfo(octokit: any): Promise<JobInfo> {
           per_page: PAGE_SIZE,
           page
         })
-        logger.debug(`Results : ${JSON.stringify(result)}`)
+        logger.info(`Results : ${JSON.stringify(result)}`)
         const jobs = result.data.jobs
-        logger.debug(`Results : ${JSON.stringify(jobs)}`)
+        logger.info(`Results : ${JSON.stringify(jobs)}`)
         // If there are no jobs, stop here
         if (!jobs || !jobs.length) {
           break
@@ -31,7 +31,7 @@ export async function getJobInfo(octokit: any): Promise<JobInfo> {
             it.status === 'in_progress' &&
             it.runner_name === process.env.RUNNER_NAME
         )
-        logger.debug(`currentJobs : ${JSON.stringify(currentJobs)}`)
+        logger.info(`currentJobs : ${JSON.stringify(currentJobs)}`)
         if (currentJobs && currentJobs.length) {
           return {
             id: currentJobs[0].id,

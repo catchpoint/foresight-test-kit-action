@@ -22,15 +22,15 @@ const octokit = github.getOctokit(githubToken)
 
 async function run(): Promise<void> {
   try {
-    logger.debug("Start gettin job info...");
+    logger.info("Start gettin job info...");
     const jobInfo = await getJobInfo(octokit);
-    logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
+    logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
     if (!jobInfo.id || !jobInfo.name) {
       logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!")
       utils.exitProcessSuccessfully();
     }
     await setJobInfoEnvVar(jobInfo);
-    logger.debug(`Env vars set!`);
+    logger.info(`Env vars set!`);
     utils.installationCommandOfCli(cliVersion);
     if(testFramework && testPath.length > 0) {
       try {
