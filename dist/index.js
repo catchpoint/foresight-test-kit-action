@@ -102,6 +102,7 @@ exports.setJobInfoEnvVar = exports.getJobInfo = void 0;
 const constants_1 = __nccwpck_require__(7306);
 const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
+const logger = __importStar(__nccwpck_require__(7854));
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
 logger.info(`repo: ${repo.owner}, runId: ${runId}`);
