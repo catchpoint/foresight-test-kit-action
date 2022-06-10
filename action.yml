@@ -11,7 +11,7 @@ inputs:
     required: true
   test_framework:
     description: : "Foresight Test Framework"
-    default: null
+    default: ''
     required: false
   test_path:
     description: : "Foresight Test Results Path"
@@ -19,7 +19,7 @@ inputs:
     required: false
   coverage_framework:
     description: : "Foresight Coverage Framework"
-    default: null
+    default: ''
     required: true
   coverage_path:
     description: : "Foresight Coverage Results Path"
