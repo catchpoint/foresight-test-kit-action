@@ -408,12 +408,15 @@ const cliVersion = core.getInput('cli_version', { required: false });
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
+            logger.info("Start gettin job info...");
             const jobInfo = yield (0, job_info_1.getJobInfo)(octokit);
+            logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!");
                 utils.exitProcessSuccessfully();
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
+            logger.info(`Env vars set!`);
             utils.installationCommandOfCli(cliVersion);
             if (testFramework && testPath.length > 0) {
                 try {

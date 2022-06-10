@@ -22,12 +22,15 @@ validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionD
 
 async function run(): Promise<void> {
   try {
+    logger.info("Start gettin job info...");
     const jobInfo = await getJobInfo(octokit);
+    logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
     if (!jobInfo.id || !jobInfo.name) {
       logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!")
       utils.exitProcessSuccessfully();
     }
     await setJobInfoEnvVar(jobInfo);
+    logger.info(`Env vars set!`);
     utils.installationCommandOfCli(cliVersion);
     if(testFramework && testPath.length > 0) {
       try {
