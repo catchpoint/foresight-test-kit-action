@@ -1,16 +1,15 @@
 import * as core from '@actions/core';
 import { getJobInfo, setJobInfoEnvVar } from './actions/helper/job_info';
 import * as logger from './actions/helper/logger';
-import { Octokit } from '@octokit/action';
 import * as utils from './actions/helper/utils';
 import { validateInputs } from './actions/helper/inputs';
 import * as runCli from './actions/helper/run_cli';
 import { FRAMEWORK_TYPES } from './constants';
-
-const octokit: Octokit = new Octokit()
+import * as github from '@actions/github';
 
 
 const apiKey: string = core.getInput('api_key', { required: true });
+const githubToken: string = core.getInput('github_token', {required: false});
 const testFramework: string = core.getInput('test_framework', { required: false });
 const testPath: string[] = core.getMultilineInput('test_path', { required: false });
 const coverageFramework: string = core.getInput('coverage_framework', { required: false });
@@ -19,6 +18,7 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', { require
 const cliVersion: string = core.getInput('cli_version', {required: false});
 
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
+const octokit = github.getOctokit(githubToken)
 
 async function run(): Promise<void> {
   try {

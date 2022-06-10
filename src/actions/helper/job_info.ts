@@ -1,4 +1,4 @@
-import { Octokit } from '@octokit/action';
+// @ts-nocheck
 import { FORESIGHT_WORKFLOW_ENV_VARS } from '../../constants';
 import * as github from '@actions/github';
 import { JobInfo } from '../../interfaces';
@@ -7,7 +7,7 @@ import * as core from '@actions/core';
 const PAGE_SIZE = 100
 const { repo, runId } = github.context
 
-export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
+export async function getJobInfo(octokit: any): Promise<JobInfo> {
     const _getJobInfo = async (): Promise<JobInfo> => {
       for (let page = 0; true; page++) {
         const result = await octokit.rest.actions.listJobsForWorkflowRun({
