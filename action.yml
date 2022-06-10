@@ -25,7 +25,7 @@ inputs:
     description: "Foresight Coverage Results Path"
     default: ''
     required: false
-  action_disable:
+  disable_action:
     description: "Foresight Test Kit Disabled"
     default: 'false'
     required: false

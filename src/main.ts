@@ -15,7 +15,7 @@ const testFramework: string = core.getInput('test_framework', { required: false 
 const testPath: string[] = core.getMultilineInput('test_path', { required: false });
 const coverageFramework: string = core.getInput('coverage_framework', { required: false });
 const coveragePath: string[] = core.getMultilineInput('coverage_path', { required: false });
-const actionDisabled: boolean = core.getBooleanInput('action_disabled', { required: false });
+const actionDisabled: boolean = core.getBooleanInput('disable_action', { required: false });
 const cliVersion: string = core.getInput('cli_version', {required: false});
 
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);

@@ -402,7 +402,7 @@ const testFramework = core.getInput('test_framework', { required: false });
 const testPath = core.getMultilineInput('test_path', { required: false });
 const coverageFramework = core.getInput('coverage_framework', { required: false });
 const coveragePath = core.getMultilineInput('coverage_path', { required: false });
-const actionDisabled = core.getBooleanInput('action_disabled', { required: false });
+const actionDisabled = core.getBooleanInput('disable_action', { required: false });
 const cliVersion = core.getInput('cli_version', { required: false });
 (0, inputs_1.validateInputs)(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 function run() {
