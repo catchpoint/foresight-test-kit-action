@@ -15,7 +15,7 @@ inputs:
     required: false
   test_path:
     description: "Foresight Test Results Path"
-    default: []
+    default: ''
     required: false
   coverage_framework:
     description: "Foresight Coverage Framework"
@@ -23,7 +23,7 @@ inputs:
     required: false
   coverage_path:
     description: "Foresight Coverage Results Path"
-    default: []
+    default: ''
     required: false
   action_disable:
     description: "Foresight Test Kit Disabled"
