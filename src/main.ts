@@ -17,7 +17,9 @@ const coverageFramework: string = core.getInput('coverage_framework', { required
 const coveragePath: string[] = core.getMultilineInput('coverage_path', { required: false });
 const actionDisabled: boolean = core.getBooleanInput('action_disabled', { required: false });
 const cliVersion: string = core.getInput('cli_version', {required: false});
-
+logger.info(`apikey: ${apiKey}`);
+logger.info(`testFramework: ${apiKey}`);
+logger.info(`testPath: ${testPath[0]}`);
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 
 async function run(): Promise<void> {
