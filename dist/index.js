@@ -105,7 +105,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const logger = __importStar(__nccwpck_require__(7854));
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
-logger.info(`repo: ${repo.owner}, runId: ${runId}`);
+logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
 function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
@@ -117,13 +117,16 @@ function getJobInfo(octokit) {
                     per_page: PAGE_SIZE,
                     page
                 });
+                logger.debug(`Results : ${JSON.stringify(result)}`);
                 const jobs = result.data.jobs;
+                logger.debug(`Results : ${JSON.stringify(jobs)}`);
                 // If there are no jobs, stop here
                 if (!jobs || !jobs.length) {
                     break;
                 }
                 const currentJobs = jobs.filter(it => it.status === 'in_progress' &&
                     it.runner_name === process.env.RUNNER_NAME);
+                logger.debug(`currentJobs : ${JSON.stringify(currentJobs)}`);
                 if (currentJobs && currentJobs.length) {
                     return {
                         id: currentJobs[0].id,
@@ -407,21 +410,20 @@ const coverageFramework = core.getInput('coverage_framework', { required: false 
 const coveragePath = core.getMultilineInput('coverage_path', { required: false });
 const actionDisabled = core.getBooleanInput('disable_action', { required: false });
 const cliVersion = core.getInput('cli_version', { required: false });
-logger.info(`githubToken: ${githubToken}`);
 (0, inputs_1.validateInputs)(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 const octokit = github.getOctokit(githubToken);
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            logger.info("Start gettin job info...");
+            logger.debug("Start gettin job info...");
             const jobInfo = yield (0, job_info_1.getJobInfo)(octokit);
-            logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
+            logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!");
                 utils.exitProcessSuccessfully();
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
-            logger.info(`Env vars set!`);
+            logger.debug(`Env vars set!`);
             utils.installationCommandOfCli(cliVersion);
             if (testFramework && testPath.length > 0) {
                 try {

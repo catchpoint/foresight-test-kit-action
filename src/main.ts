@@ -16,21 +16,21 @@ const coverageFramework: string = core.getInput('coverage_framework', { required
 const coveragePath: string[] = core.getMultilineInput('coverage_path', { required: false });
 const actionDisabled: boolean = core.getBooleanInput('disable_action', { required: false });
 const cliVersion: string = core.getInput('cli_version', {required: false});
-logger.info(`githubToken: ${githubToken}`);
+
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 const octokit = github.getOctokit(githubToken)
 
 async function run(): Promise<void> {
   try {
-    logger.info("Start gettin job info...");
+    logger.debug("Start gettin job info...");
     const jobInfo = await getJobInfo(octokit);
-    logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
+    logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
     if (!jobInfo.id || !jobInfo.name) {
       logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!")
       utils.exitProcessSuccessfully();
     }
     await setJobInfoEnvVar(jobInfo);
-    logger.info(`Env vars set!`);
+    logger.debug(`Env vars set!`);
     utils.installationCommandOfCli(cliVersion);
     if(testFramework && testPath.length > 0) {
       try {
