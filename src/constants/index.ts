@@ -1,7 +1,7 @@
 export const MIN_FORESIGHT_CLI_VERSION = '2.7.0' // TODO After release foresight change it!
 
 export const TEST_FRAMEWORKS = {
-    PYTEST: 'pytest',
+    PYTHON: 'PYTHON',
     TESTNG: 'TESTNG',
     JUNIT: 'JUNIT',
     JEST: 'JEST',
