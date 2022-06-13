@@ -266,10 +266,9 @@ function runCommand(command, args = [], envVariables = {}) {
     });
 }
 exports.runCommand = runCommand;
-const project_id = "bc28ab0f-37eb-41b9-b360-182acf3546f2";
 function generateCommand(apiKey, frameworkType, framework, paths) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -p ${project_id} -f ${framework.toUpperCase()}`;
+        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`;
         for (const path of paths) {
             command += ` -ud ${path}`;
         }
@@ -340,7 +339,7 @@ Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.FRAMEWORK_TYPES = exports.FORESIGHT_WORKFLOW_ENV_VARS = exports.COVERAGE_FRAMEWORKS = exports.TEST_FRAMEWORKS = exports.MIN_FORESIGHT_CLI_VERSION = void 0;
 exports.MIN_FORESIGHT_CLI_VERSION = '2.7.0'; // TODO After release foresight change it!
 exports.TEST_FRAMEWORKS = {
-    PYTHON: 'PYTHON',
+    PYTEST: 'PYTEST',
     TESTNG: 'TESTNG',
     JUNIT: 'JUNIT',
     JEST: 'JEST',
