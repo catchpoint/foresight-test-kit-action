@@ -5,11 +5,10 @@ import * as utils from './actions/helper/utils';
 import { validateInputs } from './actions/helper/inputs';
 import * as runCli from './actions/helper/run_cli';
 import { FRAMEWORK_TYPES } from './constants';
-import * as github from '@actions/github';
+import { Octokit } from '@octokit/action';
 
 
 const apiKey: string = core.getInput('api_key', { required: true });
-const githubToken: string = core.getInput('github_token', {required: false});
 const testFramework: string = core.getInput('test_framework', { required: false });
 const testPath: string[] = core.getMultilineInput('test_path', { required: false });
 const coverageFramework: string = core.getInput('coverage_framework', { required: false });
@@ -18,7 +17,7 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', { require
 const cliVersion: string = core.getInput('cli_version', {required: false});
 
 validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
-const octokit = github.getOctokit(githubToken)
+const octokit: Octokit = new Octokit();
 
 async function run(): Promise<void> {
   try {
