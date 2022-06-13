@@ -418,8 +418,7 @@ function run() {
             const jobInfo = yield (0, job_info_1.getJobInfo)(octokit);
             logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
-                logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!");
-                utils.exitProcessSuccessfully();
+                logger.notice("Workflow job information couldn't retrieved!");
             }
             yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
             logger.info(`Env vars set!`);

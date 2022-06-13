@@ -25,8 +25,7 @@ async function run(): Promise<void> {
     const jobInfo = await getJobInfo(octokit);
     logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
     if (!jobInfo.id || !jobInfo.name) {
-      logger.notice("Workflow job information couldn't retrieved! Foresight test kit exit!")
-      utils.exitProcessSuccessfully();
+      logger.notice("Workflow job information couldn't retrieved!")
     }
     await setJobInfoEnvVar(jobInfo);
     logger.info(`Env vars set!`);
