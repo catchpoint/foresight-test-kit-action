@@ -269,7 +269,7 @@ exports.runCommand = runCommand;
 const project_id = "bc28ab0f-37eb-41b9-b360-182acf3546f2";
 function generateCommand(apiKey, frameworkType, framework, paths) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -p ${project_id} -f ${framework}`;
+        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -p ${project_id} -f ${framework.toUpperCase()}`;
         for (const path of paths) {
             command += ` -ud ${path}`;
         }
