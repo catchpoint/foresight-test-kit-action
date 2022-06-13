@@ -1,9 +1,9 @@
 import * as core from '@actions/core';
-import { getJobInfo, setJobInfoEnvVar } from './actions/helper/job_info';
-import * as logger from './actions/helper/logger';
-import * as utils from './actions/helper/utils';
-import { validateInputs } from './actions/helper/inputs';
-import * as runCli from './actions/helper/run_cli';
+import { getJobInfo, setJobInfoEnvVar } from './actions/job_info';
+import * as logger from './actions/logger';
+import * as utils from './actions/utils';
+import { validateInputs } from './actions/inputs';
+import * as runCli from './actions/run_cli';
 import { FRAMEWORK_TYPES } from './constants';
 import { Octokit } from '@octokit/action';
 

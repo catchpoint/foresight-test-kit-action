@@ -1,7 +1,7 @@
 require('./sourcemap-register.js');/******/ (() => { // webpackBootstrap
 /******/ 	var __webpack_modules__ = ({
 
-/***/ 356:
+/***/ 266:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -28,8 +28,8 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.validateInputs = void 0;
 const constants_1 = __nccwpck_require__(7306);
-const logger = __importStar(__nccwpck_require__(7854));
-const utils_1 = __nccwpck_require__(2926);
+const logger = __importStar(__nccwpck_require__(37));
+const utils_1 = __nccwpck_require__(5505);
 function validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled) {
     if (actionDisabled) {
         logger.notice("Action is disabled! Please enable to see ultimate test and coverage analyze results :)");
@@ -63,7 +63,7 @@ exports.validateInputs = validateInputs;
 
 /***/ }),
 
-/***/ 2075:
+/***/ 2142:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -101,7 +101,7 @@ exports.setJobInfoEnvVar = exports.getJobInfo = void 0;
 const constants_1 = __nccwpck_require__(7306);
 const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
-const logger = __importStar(__nccwpck_require__(7854));
+const logger = __importStar(__nccwpck_require__(37));
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
 logger.info(`repo: ${repo.owner}, runId: ${runId}`);
@@ -163,7 +163,7 @@ exports.setJobInfoEnvVar = setJobInfoEnvVar;
 
 /***/ }),
 
-/***/ 7854:
+/***/ 37:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -221,7 +221,7 @@ exports.error = error;
 
 /***/ }),
 
-/***/ 2617:
+/***/ 4433:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -279,7 +279,7 @@ exports.generateCommand = generateCommand;
 
 /***/ }),
 
-/***/ 2926:
+/***/ 5505:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -395,11 +395,11 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const job_info_1 = __nccwpck_require__(2075);
-const logger = __importStar(__nccwpck_require__(7854));
-const utils = __importStar(__nccwpck_require__(2926));
-const inputs_1 = __nccwpck_require__(356);
-const runCli = __importStar(__nccwpck_require__(2617));
+const job_info_1 = __nccwpck_require__(2142);
+const logger = __importStar(__nccwpck_require__(37));
+const utils = __importStar(__nccwpck_require__(5505));
+const inputs_1 = __nccwpck_require__(266);
+const runCli = __importStar(__nccwpck_require__(4433));
 const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
 const apiKey = core.getInput('api_key', { required: true });

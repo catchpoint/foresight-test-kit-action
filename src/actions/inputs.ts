@@ -1,4 +1,4 @@
-import { COVERAGE_FRAMEWORKS, TEST_FRAMEWORKS } from '../../constants';
+import { COVERAGE_FRAMEWORKS, TEST_FRAMEWORKS } from '../constants';
 import * as logger from './logger';
 import { exitProcessSuccessfully } from './utils';
 

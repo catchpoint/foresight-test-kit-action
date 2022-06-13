@@ -1,6 +1,6 @@
-import { FORESIGHT_WORKFLOW_ENV_VARS } from '../../constants';
+import { FORESIGHT_WORKFLOW_ENV_VARS } from '../constants';
 import * as github from '@actions/github';
-import { JobInfo } from '../../interfaces';
+import { JobInfo } from '../interfaces';
 import * as core from '@actions/core';
 import * as logger from './logger';
 import { Octokit } from '@octokit/action';
