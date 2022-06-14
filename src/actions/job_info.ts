@@ -13,19 +13,27 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
     const _getJobInfo = async (): Promise<JobInfo> => {
       for (let page = 0; true; page++) {
         logger.info(`Get job info start: ${page}`);
-        const result = await octokit.rest.actions.listJobsForWorkflowRun({
-          owner: repo.owner,
-          repo: repo.repo,
-          run_id: runId,
-          per_page: PAGE_SIZE,
-          page
-        })
+        let result;
+        try {
+          result = await octokit.rest.actions.listJobsForWorkflowRun({
+            owner: repo.owner,
+            repo: repo.repo,
+            run_id: runId,
+            per_page: PAGE_SIZE,
+            page
+          })
+        } catch(error) {
+          result = undefined;
+        }
+        if(!result) {
+          break;
+        }
         logger.info(`Results : ${JSON.stringify(result)}`)
         const jobs = result.data.jobs
         logger.info(`Results : ${JSON.stringify(jobs)}`)
         // If there are no jobs, stop here
         if (!jobs || !jobs.length) {
-          break
+          break;
         }
         const currentJobs = jobs.filter(
           it =>
@@ -42,7 +50,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
         // Since returning job count is less than page size, this means that there are no other jobs.
         // So no need to make another request for the next page.
         if (jobs.length < PAGE_SIZE) {
-          break
+          break;
         }
       }
       return {}
