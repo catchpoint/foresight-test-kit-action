@@ -110,13 +110,22 @@ function getJobInfo(octokit) {
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
             for (let page = 0; true; page++) {
                 logger.info(`Get job info start: ${page}`);
-                const result = yield octokit.rest.actions.listJobsForWorkflowRun({
-                    owner: repo.owner,
-                    repo: repo.repo,
-                    run_id: runId,
-                    per_page: PAGE_SIZE,
-                    page
-                });
+                let result;
+                try {
+                    result = yield octokit.rest.actions.listJobsForWorkflowRun({
+                        owner: repo.owner,
+                        repo: repo.repo,
+                        run_id: runId,
+                        per_page: PAGE_SIZE,
+                        page
+                    });
+                }
+                catch (error) {
+                    result = undefined;
+                }
+                if (!result) {
+                    break;
+                }
                 logger.info(`Results : ${JSON.stringify(result)}`);
                 const jobs = result.data.jobs;
                 logger.info(`Results : ${JSON.stringify(jobs)}`);
