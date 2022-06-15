@@ -1,16 +1,18 @@
-import {expect, jest} from '@jest/globals';
-import * as utils from '../src/actions/utils';
+import {expect, jest} from '@jest/globals'
+import * as utils from '../src/actions/utils'
 
-describe("Utils", () => {
-    
+describe('Utils', () => {
     it('tests for generating cli installation command with latest', async () => {
-        const command = await utils.installationCommandOfCli("latest");
-        expect(command).toEqual(`npm install --location=global @thundra/foresight-cli@latest`);
-    });
+        const command = await utils.installationCommandOfCli('latest')
+        expect(command).toEqual(
+            `npm install --location=global @thundra/foresight-cli@latest`
+        )
+    })
 
     it('tests for generating cli installation command with version', async () => {
-        const command = await utils.installationCommandOfCli("0.0.5");
-        expect(command).toEqual(`npm install --location=global @thundra/foresight-cli@0.0.5`);
-    });
-    
+        const command = await utils.installationCommandOfCli('0.0.5')
+        expect(command).toEqual(
+            `npm install --location=global @thundra/foresight-cli@0.0.5`
+        )
+    })
 })

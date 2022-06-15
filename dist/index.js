@@ -27,34 +27,40 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.validateInputs = void 0;
-const constants_1 = __nccwpck_require__(7306);
 const logger = __importStar(__nccwpck_require__(37));
+const constants_1 = __nccwpck_require__(7306);
 const utils_1 = __nccwpck_require__(5505);
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled) {
     if (actionDisabled) {
-        logger.notice("Action is disabled! Please enable to see ultimate test and coverage analyze results :)");
+        logger.notice('Action is disabled! Please enable to see ultimate test and coverage analyze results :)');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (!testFramework && testPath.length === 0 && !coverageFramework && coveragePath.length === 0) {
-        logger.warning("Neither test nor coverage information entered");
+    if (!testFramework &&
+        testPath.length === 0 &&
+        !coverageFramework &&
+        coveragePath.length === 0) {
+        logger.warning('Neither test nor coverage information entered');
         (0, utils_1.exitProcessSuccessfully)();
     }
     if ((!testFramework && testPath.length > 0) ||
         (testFramework && testPath.length === 0)) {
-        logger.warning("Please check action inputs for test framework and path!");
+        logger.warning('Please check action inputs for test framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
     if ((!coverageFramework && coveragePath.length > 0) ||
         (coverageFramework && coveragePath.length === 0)) {
-        logger.warning("Please check action inputs for coverage framework and path!");
+        logger.warning('Please check action inputs for coverage framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (testFramework && constants_1.TEST_FRAMEWORKS[testFramework.toUpperCase()] === undefined) {
-        logger.warning("Given test framework is not supported for now :(");
+    if (testFramework &&
+        constants_1.TEST_FRAMEWORKS[testFramework.toUpperCase()] === undefined) {
+        logger.warning('Given test framework is not supported for now :(');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (coverageFramework && constants_1.COVERAGE_FRAMEWORKS[coverageFramework.toUpperCase()] === undefined) {
-        logger.warning("Given coverage framework is not supported for now :(");
+    if (coverageFramework &&
+        constants_1.COVERAGE_FRAMEWORKS[coverageFramework.toUpperCase()] === undefined) {
+        logger.warning('Given coverage framework is not supported for now :(');
         (0, utils_1.exitProcessSuccessfully)();
     }
 }
@@ -63,7 +69,7 @@ exports.validateInputs = validateInputs;
 
 /***/ }),
 
-/***/ 2142:
+/***/ 8722:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -98,17 +104,18 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.setJobInfoEnvVar = exports.getJobInfo = void 0;
-const constants_1 = __nccwpck_require__(7306);
-const github = __importStar(__nccwpck_require__(5438));
 const core = __importStar(__nccwpck_require__(2186));
+const github = __importStar(__nccwpck_require__(5438));
 const logger = __importStar(__nccwpck_require__(37));
+const constants_1 = __nccwpck_require__(7306);
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
 logger.info(`repo: ${repo.owner}, runId: ${runId}`);
 function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
+        const condition = true;
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
-            for (let page = 0; true; page++) {
+            for (let page = 0; condition; page++) {
                 logger.info(`Get job info start: ${page}`);
                 let result;
                 try {
@@ -161,6 +168,7 @@ function getJobInfo(octokit) {
     });
 }
 exports.getJobInfo = getJobInfo;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function setJobInfoEnvVar(jobInfo) {
     return __awaiter(this, void 0, void 0, function* () {
         core.exportVariable(constants_1.FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID, jobInfo.id);
@@ -198,30 +206,31 @@ var __importStar = (this && this.__importStar) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.error = exports.notice = exports.warning = exports.info = exports.debug = void 0;
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 const core = __importStar(__nccwpck_require__(2186));
 const LOG_HEADER = '[Foresight Test Kit]';
 function debug(msg) {
-    core.debug(LOG_HEADER + ' ' + msg);
+    core.debug(`${LOG_HEADER} ${msg}`);
 }
 exports.debug = debug;
 function info(msg) {
-    core.info(LOG_HEADER + ' ' + msg);
+    core.info(`${LOG_HEADER} ${msg}`);
 }
 exports.info = info;
 function warning(msg) {
-    core.warning(LOG_HEADER + ' ' + msg);
+    core.warning(`${LOG_HEADER} ${msg}`);
 }
 exports.warning = warning;
 function notice(msg) {
-    core.notice(LOG_HEADER + ' ' + msg);
+    core.notice(`${LOG_HEADER} ${msg}`);
 }
 exports.notice = notice;
 function error(msg) {
     if (typeof msg === 'string' || msg instanceof String) {
-        core.error(LOG_HEADER + ' ' + msg);
+        core.error(`${LOG_HEADER} ${msg}`);
     }
     else {
-        core.error(LOG_HEADER + ' ' + msg.message);
+        core.error(`${LOG_HEADER} ${msg.message}`);
     }
 }
 exports.error = error;
@@ -273,6 +282,7 @@ function runCommand(command, args = [], envVariables = {}) {
     });
 }
 exports.runCommand = runCommand;
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function generateCliCommand(apiKey, frameworkType, framework, paths) {
     return __awaiter(this, void 0, void 0, function* () {
         let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`;
@@ -322,6 +332,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
+/* eslint-disable @typescript-eslint/explicit-function-return-type */
 const core = __importStar(__nccwpck_require__(2186));
 function exitProcessSuccessfully() {
     process.exit(core.ExitCode.Success);
@@ -351,7 +362,7 @@ exports.TEST_FRAMEWORKS = {
     JUNIT: 'JUNIT',
     JEST: 'JEST',
     TRX: 'TRX',
-    XUNIT2: 'XUNIT2',
+    XUNIT2: 'XUNIT2'
 };
 exports.COVERAGE_FRAMEWORKS = {
     JACOCO: 'jacoco'
@@ -403,39 +414,49 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
-const job_info_1 = __nccwpck_require__(2142);
 const logger = __importStar(__nccwpck_require__(37));
-const utils = __importStar(__nccwpck_require__(5505));
-const inputs_1 = __nccwpck_require__(266);
 const runCli = __importStar(__nccwpck_require__(3954));
+const utils = __importStar(__nccwpck_require__(5505));
+const job_1 = __nccwpck_require__(8722);
 const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
+const inputs_1 = __nccwpck_require__(266);
 const apiKey = core.getInput('api_key', { required: true });
-const testFramework = core.getInput('test_framework', { required: false });
-const testPath = core.getMultilineInput('test_path', { required: false });
-const coverageFramework = core.getInput('coverage_framework', { required: false });
-const coveragePath = core.getMultilineInput('coverage_path', { required: false });
-const actionDisabled = core.getBooleanInput('disable_action', { required: false });
+const testFramework = core.getInput('test_framework', {
+    required: false
+});
+const testPath = core.getMultilineInput('test_path', {
+    required: false
+});
+const coverageFramework = core.getInput('coverage_framework', {
+    required: false
+});
+const coveragePath = core.getMultilineInput('coverage_path', {
+    required: false
+});
+const actionDisabled = core.getBooleanInput('disable_action', {
+    required: false
+});
 const cliVersion = core.getInput('cli_version', { required: false });
 (0, inputs_1.validateInputs)(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            logger.info("Start gettin job info...");
-            const jobInfo = yield (0, job_info_1.getJobInfo)(octokit);
+            logger.info('Start gettin job info...');
+            const jobInfo = yield (0, job_1.getJobInfo)(octokit);
             logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved!");
             }
-            yield (0, job_info_1.setJobInfoEnvVar)(jobInfo);
+            yield (0, job_1.setJobInfoEnvVar)(jobInfo);
             logger.info(`Env vars set!`);
             logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFramework && testPath.length > 0) {
                 try {
-                    let command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
@@ -446,7 +467,7 @@ function run() {
             }
             if (coverageFramework && coveragePath.length > 0) {
                 try {
-                    let command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
@@ -11830,12 +11851,21 @@ module.exports = dataUriToBuffer;
  * This is the web browser implementation of `debug()`.
  */
 
-exports.log = log;
 exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
 exports.storage = localstorage();
+exports.destroy = (() => {
+	let warned = false;
+
+	return () => {
+		if (!warned) {
+			warned = true;
+			console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+		}
+	};
+})();
 
 /**
  * Colors.
@@ -11996,18 +12026,14 @@ function formatArgs(args) {
 }
 
 /**
- * Invokes `console.log()` when available.
- * No-op when `console.log` is not a "function".
+ * Invokes `console.debug()` when available.
+ * No-op when `console.debug` is not a "function".
+ * If `console.debug` is not available, falls back
+ * to `console.log`.
  *
  * @api public
  */
-function log(...args) {
-	// This hackery is required for IE8/9, where
-	// the `console.log` function doesn't have 'apply'
-	return typeof console === 'object' &&
-		console.log &&
-		console.log(...args);
-}
+exports.log = console.debug || console.log || (() => {});
 
 /**
  * Save `namespaces`.
@@ -12109,15 +12135,11 @@ function setup(env) {
 	createDebug.enable = enable;
 	createDebug.enabled = enabled;
 	createDebug.humanize = __nccwpck_require__(900);
+	createDebug.destroy = destroy;
 
 	Object.keys(env).forEach(key => {
 		createDebug[key] = env[key];
 	});
-
-	/**
-	* Active `debug` instances.
-	*/
-	createDebug.instances = [];
 
 	/**
 	* The currently active debug mode names, and names to skip.
@@ -12135,7 +12157,7 @@ function setup(env) {
 
 	/**
 	* Selects a color for a debug namespace
-	* @param {String} namespace The namespace string for the for the debug instance to be colored
+	* @param {String} namespace The namespace string for the debug instance to be colored
 	* @return {Number|String} An ANSI color code for the given namespace
 	* @api private
 	*/
@@ -12160,6 +12182,9 @@ function setup(env) {
 	*/
 	function createDebug(namespace) {
 		let prevTime;
+		let enableOverride = null;
+		let namespacesCache;
+		let enabledCache;
 
 		function debug(...args) {
 			// Disabled?
@@ -12189,7 +12214,7 @@ function setup(env) {
 			args[0] = args[0].replace(/%([a-zA-Z%])/g, (match, format) => {
 				// If we encounter an escaped % then don't increase the array index
 				if (match === '%%') {
-					return match;
+					return '%';
 				}
 				index++;
 				const formatter = createDebug.formatters[format];
@@ -12212,31 +12237,36 @@ function setup(env) {
 		}
 
 		debug.namespace = namespace;
-		debug.enabled = createDebug.enabled(namespace);
 		debug.useColors = createDebug.useColors();
-		debug.color = selectColor(namespace);
-		debug.destroy = destroy;
+		debug.color = createDebug.selectColor(namespace);
 		debug.extend = extend;
-		// Debug.formatArgs = formatArgs;
-		// debug.rawLog = rawLog;
+		debug.destroy = createDebug.destroy; // XXX Temporary. Will be removed in the next major release.
 
-		// env-specific initialization logic for debug instances
+		Object.defineProperty(debug, 'enabled', {
+			enumerable: true,
+			configurable: false,
+			get: () => {
+				if (enableOverride !== null) {
+					return enableOverride;
+				}
+				if (namespacesCache !== createDebug.namespaces) {
+					namespacesCache = createDebug.namespaces;
+					enabledCache = createDebug.enabled(namespace);
+				}
+
+				return enabledCache;
+			},
+			set: v => {
+				enableOverride = v;
+			}
+		});
+
+		// Env-specific initialization logic for debug instances
 		if (typeof createDebug.init === 'function') {
 			createDebug.init(debug);
 		}
 
-		createDebug.instances.push(debug);
-
 		return debug;
-	}
-
-	function destroy() {
-		const index = createDebug.instances.indexOf(this);
-		if (index !== -1) {
-			createDebug.instances.splice(index, 1);
-			return true;
-		}
-		return false;
 	}
 
 	function extend(namespace, delimiter) {
@@ -12254,6 +12284,7 @@ function setup(env) {
 	*/
 	function enable(namespaces) {
 		createDebug.save(namespaces);
+		createDebug.namespaces = namespaces;
 
 		createDebug.names = [];
 		createDebug.skips = [];
@@ -12271,15 +12302,10 @@ function setup(env) {
 			namespaces = split[i].replace(/\*/g, '.*?');
 
 			if (namespaces[0] === '-') {
-				createDebug.skips.push(new RegExp('^' + namespaces.substr(1) + '$'));
+				createDebug.skips.push(new RegExp('^' + namespaces.slice(1) + '$'));
 			} else {
 				createDebug.names.push(new RegExp('^' + namespaces + '$'));
 			}
-		}
-
-		for (i = 0; i < createDebug.instances.length; i++) {
-			const instance = createDebug.instances[i];
-			instance.enabled = createDebug.enabled(instance.namespace);
 		}
 	}
 
@@ -12355,6 +12381,14 @@ function setup(env) {
 		return val;
 	}
 
+	/**
+	* XXX DO NOT USE. This is a temporary stub function.
+	* XXX It WILL be removed in the next major release.
+	*/
+	function destroy() {
+		console.warn('Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.');
+	}
+
 	createDebug.enable(createDebug.load());
 
 	return createDebug;
@@ -12402,6 +12436,10 @@ exports.formatArgs = formatArgs;
 exports.save = save;
 exports.load = load;
 exports.useColors = useColors;
+exports.destroy = util.deprecate(
+	() => {},
+	'Instance method `debug.destroy()` is deprecated and no longer does anything. It will be removed in the next major version of `debug`.'
+);
 
 /**
  * Colors.
@@ -12631,7 +12669,9 @@ const {formatters} = module.exports;
 formatters.o = function (v) {
 	this.inspectOpts.colors = this.useColors;
 	return util.inspect(v, this.inspectOpts)
-		.replace(/\s*\n\s*/g, ' ');
+		.split('\n')
+		.map(str => str.trim())
+		.join(' ');
 };
 
 /**

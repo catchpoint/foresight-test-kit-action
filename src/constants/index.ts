@@ -6,7 +6,7 @@ export const TEST_FRAMEWORKS = {
     JUNIT: 'JUNIT',
     JEST: 'JEST',
     TRX: 'TRX',
-    XUNIT2: 'XUNIT2',
+    XUNIT2: 'XUNIT2'
 }
 
 export const COVERAGE_FRAMEWORKS = {
