@@ -28,7 +28,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.validateInputs = void 0;
 const logger = __importStar(__nccwpck_require__(37));
-const constants_1 = __nccwpck_require__(7306);
 const utils_1 = __nccwpck_require__(5505);
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled) {
@@ -51,16 +50,6 @@ function validateInputs(testFramework, testPath, coverageFramework, coveragePath
     if ((!coverageFramework && coveragePath.length > 0) ||
         (coverageFramework && coveragePath.length === 0)) {
         logger.warning('Please check action inputs for coverage framework and path!');
-        (0, utils_1.exitProcessSuccessfully)();
-    }
-    if (testFramework &&
-        constants_1.TEST_FRAMEWORKS[testFramework.toUpperCase()] === undefined) {
-        logger.warning('Given test framework is not supported for now :(');
-        (0, utils_1.exitProcessSuccessfully)();
-    }
-    if (coverageFramework &&
-        constants_1.COVERAGE_FRAMEWORKS[coverageFramework.toUpperCase()] === undefined) {
-        logger.warning('Given coverage framework is not supported for now :(');
         (0, utils_1.exitProcessSuccessfully)();
     }
 }
@@ -354,19 +343,8 @@ exports.installationCommandOfCli = installationCommandOfCli;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FRAMEWORK_TYPES = exports.FORESIGHT_WORKFLOW_ENV_VARS = exports.COVERAGE_FRAMEWORKS = exports.TEST_FRAMEWORKS = exports.MIN_FORESIGHT_CLI_VERSION = void 0;
+exports.FRAMEWORK_TYPES = exports.FORESIGHT_WORKFLOW_ENV_VARS = exports.MIN_FORESIGHT_CLI_VERSION = void 0;
 exports.MIN_FORESIGHT_CLI_VERSION = '2.7.0'; // TODO After release foresight change it!
-exports.TEST_FRAMEWORKS = {
-    PYTEST: 'PYTEST',
-    TESTNG: 'TESTNG',
-    JUNIT: 'JUNIT',
-    JEST: 'JEST',
-    TRX: 'TRX',
-    XUNIT2: 'XUNIT2'
-};
-exports.COVERAGE_FRAMEWORKS = {
-    JACOCO: 'jacoco'
-};
 exports.FORESIGHT_WORKFLOW_ENV_VARS = {
     FORESIGHT_WORKFLOW_JOB_ID: 'FORESIGHT_WORKFLOW_JOB_ID',
     FORESIGHT_WORKFLOW_JOB_NAME: 'FORESIGHT_WORKFLOW_JOB_NAME'
