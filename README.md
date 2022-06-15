@@ -1,18 +1,6 @@
-<p align="center">
-  <a href="https://github.com/actions/typescript-action/actions"><img alt="typescript-action status" src="https://github.com/actions/typescript-action/workflows/build-test/badge.svg"></a>
-</p>
+# Foresight Test Kit Action
 
-# Create a JavaScript Action using TypeScript
-
-Use this template to bootstrap the creation of a TypeScript action.:rocket:
-
-This template includes compilation support, tests, a validation workflow, publishing, and versioning guidance.  
-
-If you are new, there's also a simpler introduction.  See the [Hello World JavaScript Action](https://github.com/actions/hello-world-javascript-action)
-
-## Create an action from this template
-
-Click the `Use this Template` and provide the new repo details for your action
+A GitHub Action to analyze test and/or coverage results.
 
 ## Code in Main
 
@@ -31,44 +19,7 @@ $ npm run build && npm run package
 Run the tests :heavy_check_mark:  
 ```bash
 $ npm test
-
- PASS  ./index.test.js
-  ✓ throws invalid number (3ms)
-  ✓ wait 500 ms (504ms)
-  ✓ test runs (95ms)
-
-...
 ```
-
-## Change action.yml
-
-The action.yml defines the inputs and output for your action.
-
-Update the action.yml with your name, description, inputs and outputs for your action.
-
-See the [documentation](https://help.github.com/en/articles/metadata-syntax-for-github-actions)
-
-## Change the Code
-
-Most toolkit and CI/CD operations involve async operations so the action is run in an async function.
-
-```javascript
-import * as core from '@actions/core';
-...
-
-async function run() {
-  try { 
-      ...
-  } 
-  catch (error) {
-    core.setFailed(error.message);
-  }
-}
-
-run()
-```
-
-See the [toolkit documentation](https://github.com/actions/toolkit/blob/master/README.md#packages) for the various packages.
 
 ## Publish to a distribution branch
 
@@ -88,6 +39,19 @@ Your action is now published! :rocket:
 
 See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
 
+
+## Configuration
+
+| Option                | Requirement       | Description
+| ---                   | ---               | ---
+| `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
+| `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
+| `test_path`       | Optional              | Test results directory/file path.
+| `coverage_framework`      | Optional          | Runtime coverage framework name(jacoco etc.)
+| `coverage_path`       | Optional              | Coverage results directory/file path.
+| `cli_version`       | Optional              | İnstalled Foresight cli version. Default is latest.
+| `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
+
 ## Validate
 
 You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
@@ -95,11 +59,28 @@ You can now validate the action by referencing `./` in a workflow in your repo (
 ```yaml
 uses: ./
 with:
-  milliseconds: 1000
+  api_key: <your_api_key>
+  test_framework: <test_framework>
+  test_path: <test_results_path>
+  coverage_framework: <coverage_framework>
+  coverage_path: <coverage_results_path>
 ```
 
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action! :rocket:
+See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action!
 
 ## Usage:
 
 After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
+
+To use the action, add the following step before the steps you want to track.
+
+```yaml
+- name: Analyze Test and/or Coverage Results
+  uses: thundra-io/foresight-test-kit-action@v1
+  with:
+    api_key: <your_api_key_required>
+    test_framework: <test_framework_optional>
+    test_path: <test_results_path_optional>
+    coverage_framework: <coverage_framework_optional>
+    coverage_path: <coverage_results_path_optional>
+```
