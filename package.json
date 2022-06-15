@@ -33,6 +33,7 @@
     "@octokit/action": "^3.18.1"
   },
   "devDependencies": {
+    "@types/jest": "^27.5.2",
     "@types/node": "^16.10.5",
     "@typescript-eslint/parser": "^5.8.1",
     "@vercel/ncc": "^0.31.1",

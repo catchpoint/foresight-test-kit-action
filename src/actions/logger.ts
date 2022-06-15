@@ -19,10 +19,9 @@ export function notice(msg: string) {
 }
 
 export function error(msg: string | Error) {
-  if (msg instanceof String) {
+  if (typeof msg === 'string' || msg instanceof String) {
     core.error(LOG_HEADER + ' ' + msg)
   } else {
-    core.error(LOG_HEADER + ' ' + (msg as Error).name)
-    core.error(msg as Error)
+    core.error(LOG_HEADER + ' ' + msg.message);
   }
 }

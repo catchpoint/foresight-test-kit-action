@@ -217,12 +217,11 @@ function notice(msg) {
 }
 exports.notice = notice;
 function error(msg) {
-    if (msg instanceof String) {
+    if (typeof msg === 'string' || msg instanceof String) {
         core.error(LOG_HEADER + ' ' + msg);
     }
     else {
-        core.error(LOG_HEADER + ' ' + msg.name);
-        core.error(msg);
+        core.error(LOG_HEADER + ' ' + msg.message);
     }
 }
 exports.error = error;
