@@ -362,7 +362,7 @@ exports.FORESIGHT_WORKFLOW_ENV_VARS = {
 };
 exports.FRAMEWORK_TYPES = {
     TEST: 'test',
-    COVERAGE: 'coverage'
+    COVERAGE: 'test-coverage'
 };
 
 

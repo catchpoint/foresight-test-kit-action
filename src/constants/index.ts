@@ -20,5 +20,5 @@ export const FORESIGHT_WORKFLOW_ENV_VARS = {
 
 export const FRAMEWORK_TYPES = {
     TEST: 'test',
-    COVERAGE: 'coverage'
+    COVERAGE: 'test-coverage'
 }
