@@ -1,5 +1,4 @@
 import * as logger from './logger'
-import {COVERAGE_FRAMEWORKS, TEST_FRAMEWORKS} from '../constants'
 import {exitProcessSuccessfully} from './utils'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
@@ -41,24 +40,6 @@ export function validateInputs(
         logger.warning(
             'Please check action inputs for coverage framework and path!'
         )
-        exitProcessSuccessfully()
-    }
-    if (
-        testFramework &&
-        TEST_FRAMEWORKS[
-            testFramework.toUpperCase() as keyof typeof TEST_FRAMEWORKS
-        ] === undefined
-    ) {
-        logger.warning('Given test framework is not supported for now :(')
-        exitProcessSuccessfully()
-    }
-    if (
-        coverageFramework &&
-        COVERAGE_FRAMEWORKS[
-            coverageFramework.toUpperCase() as keyof typeof COVERAGE_FRAMEWORKS
-        ] === undefined
-    ) {
-        logger.warning('Given coverage framework is not supported for now :(')
         exitProcessSuccessfully()
     }
 }
