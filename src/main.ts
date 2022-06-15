@@ -3,7 +3,7 @@ import { getJobInfo, setJobInfoEnvVar } from './actions/job_info';
 import * as logger from './actions/logger';
 import * as utils from './actions/utils';
 import { validateInputs } from './actions/inputs';
-import * as runCli from './actions/run_cli';
+import * as runCli from './actions/run';
 import { FRAMEWORK_TYPES } from './constants';
 import { Octokit } from '@octokit/action';
 
@@ -34,7 +34,7 @@ async function run(): Promise<void> {
     await runCli.runCommand(await utils.installationCommandOfCli(cliVersion));
     if(testFramework && testPath.length > 0) {
       try {
-        let command = await runCli.generateCommand(apiKey, FRAMEWORK_TYPES.TEST, testFramework, testPath);
+        let command = await runCli.generateCliCommand(apiKey, FRAMEWORK_TYPES.TEST, testFramework, testPath);
         await runCli.runCommand(command);
       } catch(error) {
         logger.error("Test results couldn't retrieved!");
@@ -43,7 +43,7 @@ async function run(): Promise<void> {
     }
     if (coverageFramework && coveragePath.length > 0) {
       try {
-        let command = await runCli.generateCommand(apiKey, FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
+        let command = await runCli.generateCliCommand(apiKey, FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
         await runCli.runCommand(command);
       } catch(error) {
         logger.error("Coverage results couldn't retrieved!");

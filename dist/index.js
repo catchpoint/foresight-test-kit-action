@@ -230,7 +230,7 @@ exports.error = error;
 
 /***/ }),
 
-/***/ 4433:
+/***/ 3954:
 /***/ (function(__unused_webpack_module, exports, __nccwpck_require__) {
 
 "use strict";
@@ -264,7 +264,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
     });
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.generateCommand = exports.runCommand = void 0;
+exports.generateCliCommand = exports.runCommand = void 0;
 const exec = __importStar(__nccwpck_require__(1514));
 function runCommand(command, args = [], envVariables = {}) {
     return __awaiter(this, void 0, void 0, function* () {
@@ -274,7 +274,7 @@ function runCommand(command, args = [], envVariables = {}) {
     });
 }
 exports.runCommand = runCommand;
-function generateCommand(apiKey, frameworkType, framework, paths) {
+function generateCliCommand(apiKey, frameworkType, framework, paths) {
     return __awaiter(this, void 0, void 0, function* () {
         let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`;
         for (const path of paths) {
@@ -283,7 +283,7 @@ function generateCommand(apiKey, frameworkType, framework, paths) {
         return command;
     });
 }
-exports.generateCommand = generateCommand;
+exports.generateCliCommand = generateCliCommand;
 
 
 /***/ }),
@@ -408,7 +408,7 @@ const job_info_1 = __nccwpck_require__(2142);
 const logger = __importStar(__nccwpck_require__(37));
 const utils = __importStar(__nccwpck_require__(5505));
 const inputs_1 = __nccwpck_require__(266);
-const runCli = __importStar(__nccwpck_require__(4433));
+const runCli = __importStar(__nccwpck_require__(3954));
 const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
 const apiKey = core.getInput('api_key', { required: true });
@@ -436,7 +436,7 @@ function run() {
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFramework && testPath.length > 0) {
                 try {
-                    let command = yield runCli.generateCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
+                    let command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
@@ -447,7 +447,7 @@ function run() {
             }
             if (coverageFramework && coveragePath.length > 0) {
                 try {
-                    let command = yield runCli.generateCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
+                    let command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
