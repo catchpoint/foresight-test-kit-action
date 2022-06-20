@@ -14,7 +14,7 @@ const testFramework: string = core.getInput('test_framework', {
 const testPath: string[] = core.getMultilineInput('test_path', {
     required: false
 })
-const coverageFramework: string = core.getInput('coverage_framework', {
+const coverageFormat: string = core.getInput('coverage_format', {
     required: false
 })
 const coveragePath: string[] = core.getMultilineInput('coverage_path', {
@@ -28,7 +28,7 @@ const cliVersion: string = core.getInput('cli_version', {required: false})
 validateInputs(
     testFramework,
     testPath,
-    coverageFramework,
+    coverageFormat,
     coveragePath,
     actionDisabled
 )
@@ -36,7 +36,7 @@ const octokit: Octokit = new Octokit()
 
 async function run(): Promise<void> {
     try {
-        logger.info('Start gettin job info...')
+        logger.info('Start getting job info...')
         const jobInfo = await getJobInfo(octokit)
         logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
         if (!jobInfo.id || !jobInfo.name) {
@@ -67,12 +67,12 @@ async function run(): Promise<void> {
                 if (error instanceof Error) core.setFailed(error.message)
             }
         }
-        if (coverageFramework && coveragePath.length > 0) {
+        if (coverageFormat && coveragePath.length > 0) {
             try {
                 const command = await runCli.generateCliCommand(
                     apiKey,
                     FRAMEWORK_TYPES.COVERAGE,
-                    coverageFramework,
+                    coverageFormat,
                     coveragePath
                 )
                 await runCli.runCommand(command)

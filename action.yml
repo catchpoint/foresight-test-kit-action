@@ -17,8 +17,8 @@ inputs:
     description: "Foresight Test Results Path"
     default: ''
     required: false
-  coverage_framework:
-    description: "Foresight Coverage Framework"
+  coverage_format:
+    description: "Foresight Coverage Format"
     default: ''
     required: false
   coverage_path:

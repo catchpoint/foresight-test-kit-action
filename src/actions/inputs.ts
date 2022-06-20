@@ -5,7 +5,7 @@ import {exitProcessSuccessfully} from './utils'
 export function validateInputs(
     testFramework: string,
     testPath: string[],
-    coverageFramework: string,
+    coverageFormat: string,
     coveragePath: string[],
     actionDisabled: boolean
 ) {
@@ -18,7 +18,7 @@ export function validateInputs(
     if (
         !testFramework &&
         testPath.length === 0 &&
-        !coverageFramework &&
+        !coverageFormat &&
         coveragePath.length === 0
     ) {
         logger.warning('Neither test nor coverage information entered')
@@ -34,8 +34,8 @@ export function validateInputs(
         exitProcessSuccessfully()
     }
     if (
-        (!coverageFramework && coveragePath.length > 0) ||
-        (coverageFramework && coveragePath.length === 0)
+        (!coverageFormat && coveragePath.length > 0) ||
+        (coverageFormat && coveragePath.length === 0)
     ) {
         logger.warning(
             'Please check action inputs for coverage framework and path!'

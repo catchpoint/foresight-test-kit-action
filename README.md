@@ -47,7 +47,7 @@ See the [versioning documentation](https://github.com/actions/toolkit/blob/maste
 | `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
 | `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
 | `test_path`       | Optional              | Test results directory/file path.
-| `coverage_framework`      | Optional          | Runtime coverage framework name(jacoco etc.)
+| `coverage_format`      | Optional          | Runtime coverage format name(jacoco etc.)
 | `coverage_path`       | Optional              | Coverage results directory/file path.
 | `cli_version`       | Optional              | İnstalled Foresight cli version. Default is latest.
 | `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
@@ -62,7 +62,7 @@ with:
   api_key: <your_api_key>
   test_framework: <test_framework>
   test_path: <test_results_path>
-  coverage_framework: <coverage_framework>
+  coverage_format: <coverage_format>
   coverage_path: <coverage_results_path>
 ```
 
@@ -81,6 +81,6 @@ To use the action, add the following step before the steps you want to track.
     api_key: <your_api_key_required>
     test_framework: <test_framework_optional>
     test_path: <test_results_path_optional>
-    coverage_framework: <coverage_framework_optional>
+    coverage_format: <coverage_format_optional>
     coverage_path: <coverage_results_path_optional>
 ```

@@ -30,14 +30,14 @@ exports.validateInputs = void 0;
 const logger = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(5505);
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function validateInputs(testFramework, testPath, coverageFramework, coveragePath, actionDisabled) {
+function validateInputs(testFramework, testPath, coverageFormat, coveragePath, actionDisabled) {
     if (actionDisabled) {
         logger.notice('Action is disabled! Please enable to see ultimate test and coverage analyze results :)');
         (0, utils_1.exitProcessSuccessfully)();
     }
     if (!testFramework &&
         testPath.length === 0 &&
-        !coverageFramework &&
+        !coverageFormat &&
         coveragePath.length === 0) {
         logger.warning('Neither test nor coverage information entered');
         (0, utils_1.exitProcessSuccessfully)();
@@ -47,8 +47,8 @@ function validateInputs(testFramework, testPath, coverageFramework, coveragePath
         logger.warning('Please check action inputs for test framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if ((!coverageFramework && coveragePath.length > 0) ||
-        (coverageFramework && coveragePath.length === 0)) {
+    if ((!coverageFormat && coveragePath.length > 0) ||
+        (coverageFormat && coveragePath.length === 0)) {
         logger.warning('Please check action inputs for coverage framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
@@ -406,7 +406,7 @@ const testFramework = core.getInput('test_framework', {
 const testPath = core.getMultilineInput('test_path', {
     required: false
 });
-const coverageFramework = core.getInput('coverage_framework', {
+const coverageFormat = core.getInput('coverage_format', {
     required: false
 });
 const coveragePath = core.getMultilineInput('coverage_path', {
@@ -416,12 +416,12 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
-(0, inputs_1.validateInputs)(testFramework, testPath, coverageFramework, coveragePath, actionDisabled);
+(0, inputs_1.validateInputs)(testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {
-            logger.info('Start gettin job info...');
+            logger.info('Start getting job info...');
             const jobInfo = yield (0, job_1.getJobInfo)(octokit);
             logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
@@ -443,9 +443,9 @@ function run() {
                         core.setFailed(error.message);
                 }
             }
-            if (coverageFramework && coveragePath.length > 0) {
+            if (coverageFormat && coveragePath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFramework, coveragePath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFormat, coveragePath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {

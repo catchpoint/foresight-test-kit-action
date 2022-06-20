@@ -1,26 +1,28 @@
 {
-  "name": "typescript-action",
+  "name": "foresight-test-kit-action",
   "version": "0.0.0",
-  "private": true,
-  "description": "TypeScript template action",
+  "private": false,
+  "description": "Foresight Test and Coverage Analyzer",
   "main": "lib/main.js",
   "scripts": {
     "build": "tsc",
     "format": "prettier --write '**/*.ts'",
     "format-check": "prettier --check '**/*.ts'",
     "lint": "eslint src/**/*.ts",
-    "package": "ncc build --source-map --license licenses.txt",
+    "package": "ncc build --source-map",
     "test": "jest",
     "all": "npm run build && npm run format && npm run lint && npm run package && npm test"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/actions/typescript-action.git"
+    "url": "git+https://github.com/thundra-io/foresight-test-kit-action.git"
   },
   "keywords": [
     "actions",
-    "node",
-    "setup"
+    "test",
+    "coverage",
+    "analyze",
+    "foresight"
   ],
   "author": "",
   "license": "MIT",
@@ -28,8 +30,6 @@
     "@actions/core": "^1.6.0",
     "@actions/exec": "^1.1.1",
     "@actions/github": "^5.0.3",
-    "@aws-sdk/client-s3": "^3.107.0",
-    "@aws-sdk/s3-request-presigner": "^3.107.0",
     "@octokit/action": "^3.18.1"
   },
   "devDependencies": {
