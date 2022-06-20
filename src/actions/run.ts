@@ -22,7 +22,7 @@ export async function generateCliCommand(
 ) {
     let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`
     for (const path of paths) {
-        command += ` -ud ${path}`
+        command += ` --uploadDir=${path}`
     }
     return command
 }
