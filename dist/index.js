@@ -276,7 +276,7 @@ function generateCliCommand(apiKey, frameworkType, framework, paths) {
     return __awaiter(this, void 0, void 0, function* () {
         let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`;
         for (const path of paths) {
-            command += ` -ud ${path}`;
+            command += ` --uploadDir=${path}`;
         }
         return command;
     });
