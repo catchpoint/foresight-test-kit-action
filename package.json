@@ -21,7 +21,7 @@
     "actions",
     "test",
     "coverage",
-    "analyze",
+    "ci",
     "foresight"
   ],
   "author": "",
