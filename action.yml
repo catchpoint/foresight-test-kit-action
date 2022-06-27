@@ -9,8 +9,8 @@ inputs:
   api_key: 
     description: "Foresight Api Key"
     required: true
-  test_framework:
-    description: "Foresight Test Framework"
+  test_format:
+    description: "Foresight Test Format"
     default: ''
     required: false
   test_path:

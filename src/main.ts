@@ -8,7 +8,7 @@ import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
 
 const apiKey: string = core.getInput('api_key', {required: true})
-const testFramework: string = core.getInput('test_framework', {
+const testFormat: string = core.getInput('test_format', {
     required: false
 })
 const testPath: string[] = core.getMultilineInput('test_path', {
@@ -26,7 +26,7 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', {
 const cliVersion: string = core.getInput('cli_version', {required: false})
 
 validateInputs(
-    testFramework,
+    testFormat,
     testPath,
     coverageFormat,
     coveragePath,
@@ -53,12 +53,12 @@ async function run(): Promise<void> {
         await runCli.runCommand(
             await utils.installationCommandOfCli(cliVersion)
         )
-        if (testFramework && testPath.length > 0) {
+        if (testFormat && testPath.length > 0) {
             try {
                 const command = await runCli.generateCliCommand(
                     apiKey,
                     FRAMEWORK_TYPES.TEST,
-                    testFramework,
+                    testFormat,
                     testPath
                 )
                 await runCli.runCommand(command)

@@ -3,7 +3,7 @@ import {exitProcessSuccessfully} from './utils'
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function validateInputs(
-    testFramework: string,
+    testFormat: string,
     testPath: string[],
     coverageFormat: string,
     coveragePath: string[],
@@ -16,7 +16,7 @@ export function validateInputs(
         exitProcessSuccessfully()
     }
     if (
-        !testFramework &&
+        !testFormat &&
         testPath.length === 0 &&
         !coverageFormat &&
         coveragePath.length === 0
@@ -25,8 +25,8 @@ export function validateInputs(
         exitProcessSuccessfully()
     }
     if (
-        (!testFramework && testPath.length > 0) ||
-        (testFramework && testPath.length === 0)
+        (!testFormat && testPath.length > 0) ||
+        (testFormat && testPath.length === 0)
     ) {
         logger.warning(
             'Please check action inputs for test framework and path!'

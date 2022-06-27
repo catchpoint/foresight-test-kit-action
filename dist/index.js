@@ -30,20 +30,20 @@ exports.validateInputs = void 0;
 const logger = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(5505);
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function validateInputs(testFramework, testPath, coverageFormat, coveragePath, actionDisabled) {
+function validateInputs(testFormat, testPath, coverageFormat, coveragePath, actionDisabled) {
     if (actionDisabled) {
         logger.notice('Action is disabled! Please enable to see ultimate test and coverage analyze results :)');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (!testFramework &&
+    if (!testFormat &&
         testPath.length === 0 &&
         !coverageFormat &&
         coveragePath.length === 0) {
         logger.warning('Neither test nor coverage information entered');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if ((!testFramework && testPath.length > 0) ||
-        (testFramework && testPath.length === 0)) {
+    if ((!testFormat && testPath.length > 0) ||
+        (testFormat && testPath.length === 0)) {
         logger.warning('Please check action inputs for test framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
@@ -400,7 +400,7 @@ const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
 const inputs_1 = __nccwpck_require__(266);
 const apiKey = core.getInput('api_key', { required: true });
-const testFramework = core.getInput('test_framework', {
+const testFormat = core.getInput('test_format', {
     required: false
 });
 const testPath = core.getMultilineInput('test_path', {
@@ -416,7 +416,7 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
-(0, inputs_1.validateInputs)(testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
+(0, inputs_1.validateInputs)(testFormat, testPath, coverageFormat, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -432,9 +432,9 @@ function run() {
             logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
-            if (testFramework && testPath.length > 0) {
+            if (testFormat && testPath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFramework, testPath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFormat, testPath);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
