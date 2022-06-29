@@ -8,6 +8,9 @@ import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
 
 const apiKey: string = core.getInput('api_key', {required: true})
+const testFramework: string = core.getInput('test_framework', {
+    required: false
+})
 const testFormat: string = core.getInput('test_format', {
     required: false
 })
@@ -27,6 +30,7 @@ const cliVersion: string = core.getInput('cli_version', {required: false})
 
 validateInputs(
     testFormat,
+    testFramework,
     testPath,
     coverageFormat,
     coveragePath,
@@ -58,8 +62,9 @@ async function run(): Promise<void> {
                 const command = await runCli.generateCliCommand(
                     apiKey,
                     FRAMEWORK_TYPES.TEST,
+                    testPath,
                     testFormat,
-                    testPath
+                    testFramework
                 )
                 await runCli.runCommand(command)
             } catch (error) {
@@ -72,8 +77,8 @@ async function run(): Promise<void> {
                 const command = await runCli.generateCliCommand(
                     apiKey,
                     FRAMEWORK_TYPES.COVERAGE,
-                    coverageFormat,
-                    coveragePath
+                    coveragePath,
+                    coverageFormat
                 )
                 await runCli.runCommand(command)
             } catch (error) {

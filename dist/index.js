@@ -30,21 +30,21 @@ exports.validateInputs = void 0;
 const logger = __importStar(__nccwpck_require__(37));
 const utils_1 = __nccwpck_require__(5505);
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function validateInputs(testFormat, testPath, coverageFormat, coveragePath, actionDisabled) {
+function validateInputs(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled) {
     if (actionDisabled) {
         logger.notice('Action is disabled! Please enable to see ultimate test and coverage analyze results :)');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (!testFormat &&
+    if ((!testFormat || !testFramework) &&
         testPath.length === 0 &&
         !coverageFormat &&
         coveragePath.length === 0) {
         logger.warning('Neither test nor coverage information entered');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if ((!testFormat && testPath.length > 0) ||
-        (testFormat && testPath.length === 0)) {
-        logger.warning('Please check action inputs for test framework and path!');
+    if (((!testFormat || !testFramework) && testPath.length > 0) ||
+        (testFormat && testFramework && testPath.length === 0)) {
+        logger.warning('Please check action inputs for test format, framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
     if ((!coverageFormat && coveragePath.length > 0) ||
@@ -263,6 +263,7 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateCliCommand = exports.runCommand = void 0;
 const exec = __importStar(__nccwpck_require__(1514));
+const constants_1 = __nccwpck_require__(7306);
 function runCommand(command, args = [], envVariables = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         return exec.exec(command, args, {
@@ -272,9 +273,12 @@ function runCommand(command, args = [], envVariables = {}) {
 }
 exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function generateCliCommand(apiKey, frameworkType, framework, paths) {
+function generateCliCommand(apiKey, frameworkType, paths, format, framework) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} -f ${framework.toUpperCase()}`;
+        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} --format ${format.toUpperCase()}`;
+        if (framework && frameworkType.toLowerCase() === constants_1.FRAMEWORK_TYPES.TEST) {
+            command += ` --framework ${framework.toUpperCase()}`;
+        }
         for (const path of paths) {
             command += ` --uploadDir=${path}`;
         }
@@ -400,6 +404,9 @@ const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
 const inputs_1 = __nccwpck_require__(266);
 const apiKey = core.getInput('api_key', { required: true });
+const testFramework = core.getInput('test_framework', {
+    required: false
+});
 const testFormat = core.getInput('test_format', {
     required: false
 });
@@ -416,7 +423,7 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
-(0, inputs_1.validateInputs)(testFormat, testPath, coverageFormat, coveragePath, actionDisabled);
+(0, inputs_1.validateInputs)(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
@@ -434,7 +441,7 @@ function run() {
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFormat && testPath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testFormat, testPath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFormat, testFramework);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
@@ -445,7 +452,7 @@ function run() {
             }
             if (coverageFormat && coveragePath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coverageFormat, coveragePath);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coveragePath, coverageFormat);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {

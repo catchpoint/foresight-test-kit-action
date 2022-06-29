@@ -8,11 +8,12 @@ describe('Generate Cli Commands', () => {
         const command = await run.generateCliCommand(
             'api_key',
             FRAMEWORK_TYPES.TEST,
-            'pytest',
-            ['./reports', './target']
+            ['./reports', './target'],
+            'junit',
+            'pytest'
         )
         expect(command).toEqual(
-            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key -f PYTEST --uploadDir=./reports --uploadDir=./target`
+            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --format JUNIT --framework PYTEST --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -20,11 +21,11 @@ describe('Generate Cli Commands', () => {
         const command = await run.generateCliCommand(
             'api_key',
             FRAMEWORK_TYPES.COVERAGE,
-            'jacoco',
-            ['./reports', './targets/**']
+            ['./reports', './targets/**'],
+            'JACOCO/XML'
         )
         expect(command).toEqual(
-            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key -f JACOCO --uploadDir=./reports --uploadDir=./targets/**`
+            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
         )
     })
 

@@ -13,6 +13,10 @@ inputs:
     description: "Foresight Test Format"
     default: ''
     required: false
+  test_framework:
+    description: "Foresight Test Framework"
+    default: ''
+    required: false
   test_path:
     description: "Foresight Test Results Path"
     default: ''
