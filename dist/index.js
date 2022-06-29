@@ -457,7 +457,7 @@ function run() {
             logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
-            if (testFormat && testPath.length > 0) {
+            if (testFramework && testPath.length > 0) {
                 try {
                     const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat);
                     yield runCli.runCommand(command);

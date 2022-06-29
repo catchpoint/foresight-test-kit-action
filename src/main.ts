@@ -57,7 +57,7 @@ async function run(): Promise<void> {
         await runCli.runCommand(
             await utils.installationCommandOfCli(cliVersion)
         )
-        if (testFormat && testPath.length > 0) {
+        if (testFramework && testPath.length > 0) {
             try {
                 const command = await runCli.generateCliCommand(
                     apiKey,
