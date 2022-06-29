@@ -9,11 +9,11 @@ describe('Generate Cli Commands', () => {
             'api_key',
             FRAMEWORK_TYPES.TEST,
             ['./reports', './target'],
-            'junit',
-            'pytest'
+            'pytest',
+            'junit'
         )
         expect(command).toEqual(
-            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --format JUNIT --framework PYTEST --uploadDir=./reports --uploadDir=./target`
+            `thundra-foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework PYTEST --format JUNIT --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -22,6 +22,7 @@ describe('Generate Cli Commands', () => {
             'api_key',
             FRAMEWORK_TYPES.COVERAGE,
             ['./reports', './targets/**'],
+            '',
             'JACOCO/XML'
         )
         expect(command).toEqual(

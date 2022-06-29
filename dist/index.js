@@ -35,15 +35,15 @@ function validateInputs(testFormat, testFramework, testPath, coverageFormat, cov
         logger.notice('Action is disabled! Please enable to see ultimate test and coverage analyze results :)');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if ((!testFormat || !testFramework) &&
+    if (!testFramework &&
         testPath.length === 0 &&
         !coverageFormat &&
         coveragePath.length === 0) {
         logger.warning('Neither test nor coverage information entered');
         (0, utils_1.exitProcessSuccessfully)();
     }
-    if (((!testFormat || !testFramework) && testPath.length > 0) ||
-        (testFormat && testFramework && testPath.length === 0)) {
+    if ((!testFramework && testPath.length > 0) ||
+        (testFramework && testPath.length === 0)) {
         logger.warning('Please check action inputs for test format, framework and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
@@ -263,7 +263,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.generateCliCommand = exports.runCommand = void 0;
 const exec = __importStar(__nccwpck_require__(1514));
+const logger = __importStar(__nccwpck_require__(37));
 const constants_1 = __nccwpck_require__(7306);
+const utils_1 = __nccwpck_require__(5505);
 function runCommand(command, args = [], envVariables = {}) {
     return __awaiter(this, void 0, void 0, function* () {
         return exec.exec(command, args, {
@@ -273,11 +275,27 @@ function runCommand(command, args = [], envVariables = {}) {
 }
 exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function generateCliCommand(apiKey, frameworkType, paths, format, framework) {
+function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey} --format ${format.toUpperCase()}`;
-        if (framework && frameworkType.toLowerCase() === constants_1.FRAMEWORK_TYPES.TEST) {
-            command += ` --framework ${framework.toUpperCase()}`;
+        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
+        switch (frameworkType.toLowerCase()) {
+            case constants_1.FRAMEWORK_TYPES.TEST:
+                command += ` --framework ${framework.toUpperCase()}`;
+                if (format) {
+                    command += ` --format ${format.toUpperCase()}`;
+                }
+                break;
+            case constants_1.FRAMEWORK_TYPES.COVERAGE:
+                if (format) {
+                    command += ` --format ${format.toUpperCase()}`;
+                }
+                else {
+                    logger.warning('Coverage format should be given!!!');
+                    (0, utils_1.exitProcessSuccessfully)();
+                }
+                break;
+            default:
+                break;
         }
         for (const path of paths) {
             command += ` --uploadDir=${path}`;
@@ -441,7 +459,7 @@ function run() {
             yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
             if (testFormat && testPath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFormat, testFramework);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {
@@ -452,7 +470,7 @@ function run() {
             }
             if (coverageFormat && coveragePath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coveragePath, coverageFormat);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coveragePath, '', coverageFormat);
                     yield runCli.runCommand(command);
                 }
                 catch (error) {

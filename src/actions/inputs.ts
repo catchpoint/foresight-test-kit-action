@@ -17,7 +17,7 @@ export function validateInputs(
         exitProcessSuccessfully()
     }
     if (
-        (!testFormat || !testFramework) &&
+        !testFramework &&
         testPath.length === 0 &&
         !coverageFormat &&
         coveragePath.length === 0
@@ -26,8 +26,8 @@ export function validateInputs(
         exitProcessSuccessfully()
     }
     if (
-        ((!testFormat || !testFramework) && testPath.length > 0) ||
-        (testFormat && testFramework && testPath.length === 0)
+        (!testFramework && testPath.length > 0) ||
+        (testFramework && testPath.length === 0)
     ) {
         logger.warning(
             'Please check action inputs for test format, framework and path!'

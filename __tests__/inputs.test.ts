@@ -90,8 +90,8 @@ describe('Validate Inputs', () => {
                 [],
                 false
             )
-        }).toThrow()
-        expect(mockExit).toHaveBeenCalledWith(core.ExitCode.Success)
+        }).not.toThrow()
+        expect(mockExit).not.toBeCalledWith(core.ExitCode.Success)
         mockExit.mockRestore()
     })
 

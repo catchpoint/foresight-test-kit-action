@@ -63,8 +63,8 @@ async function run(): Promise<void> {
                     apiKey,
                     FRAMEWORK_TYPES.TEST,
                     testPath,
-                    testFormat,
-                    testFramework
+                    testFramework,
+                    testFormat
                 )
                 await runCli.runCommand(command)
             } catch (error) {
@@ -78,6 +78,7 @@ async function run(): Promise<void> {
                     apiKey,
                     FRAMEWORK_TYPES.COVERAGE,
                     coveragePath,
+                    '',
                     coverageFormat
                 )
                 await runCli.runCommand(command)
