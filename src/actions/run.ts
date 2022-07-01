@@ -27,14 +27,14 @@ export async function generateCliCommand(
     let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
         case FRAMEWORK_TYPES.TEST:
-            command += ` --framework ${framework.toUpperCase()}`
+            command += ` --framework=${framework.toUpperCase()}`
             if (format) {
-                command += ` --format ${format.toUpperCase()}`
+                command += ` --format=${format.toUpperCase()}`
             }
             break
         case FRAMEWORK_TYPES.COVERAGE:
             if (format) {
-                command += ` --format ${format.toUpperCase()}`
+                command += ` --format=${format.toUpperCase()}`
             } else {
                 logger.warning('Coverage format should be given!!!')
                 exitProcessSuccessfully()

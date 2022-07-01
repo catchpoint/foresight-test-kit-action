@@ -42,21 +42,19 @@ async function run(): Promise<void> {
     try {
         logger.info('Start getting job info...')
         const jobInfo = await getJobInfo(octokit)
-        logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
+        logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
         if (!jobInfo.id || !jobInfo.name) {
             logger.notice("Workflow job information couldn't retrieved!")
         }
         await setJobInfoEnvVar(jobInfo)
         logger.info(`Env vars set!`)
-        logger.info(
+        logger.debug(
             `FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`
         )
-        logger.info(
+        logger.debug(
             `FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`
         )
-        await runCli.runCommand(
-            await utils.installationCommandOfCli(cliVersion)
-        )
+        await runCli.runCommand(utils.installationCommandOfCli(cliVersion))
         if (testFramework && testPath.length > 0) {
             try {
                 const command = await runCli.generateCliCommand(

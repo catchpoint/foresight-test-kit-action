@@ -99,13 +99,13 @@ const logger = __importStar(__nccwpck_require__(37));
 const constants_1 = __nccwpck_require__(7306);
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
-logger.info(`repo: ${repo.owner}, runId: ${runId}`);
+logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
 function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const condition = true;
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
             for (let page = 0; condition; page++) {
-                logger.info(`Get job info start: ${page}`);
+                logger.debug(`Get job info start: ${page}`);
                 let result;
                 try {
                     result = yield octokit.rest.actions.listJobsForWorkflowRun({
@@ -122,16 +122,16 @@ function getJobInfo(octokit) {
                 if (!result) {
                     break;
                 }
-                logger.info(`Results : ${JSON.stringify(result)}`);
+                logger.debug(`Results : ${JSON.stringify(result)}`);
                 const jobs = result.data.jobs;
-                logger.info(`Results : ${JSON.stringify(jobs)}`);
+                logger.debug(`Results : ${JSON.stringify(jobs)}`);
                 // If there are no jobs, stop here
                 if (!jobs || !jobs.length) {
                     break;
                 }
                 const currentJobs = jobs.filter(it => it.status === 'in_progress' &&
                     it.runner_name === process.env.RUNNER_NAME);
-                logger.info(`currentJobs : ${JSON.stringify(currentJobs)}`);
+                logger.debug(`currentJobs : ${JSON.stringify(currentJobs)}`);
                 if (currentJobs && currentJobs.length) {
                     return {
                         id: currentJobs[0].id,
@@ -280,14 +280,14 @@ function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
         let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
             case constants_1.FRAMEWORK_TYPES.TEST:
-                command += ` --framework ${framework.toUpperCase()}`;
+                command += ` --framework=${framework.toUpperCase()}`;
                 if (format) {
-                    command += ` --format ${format.toUpperCase()}`;
+                    command += ` --format=${format.toUpperCase()}`;
                 }
                 break;
             case constants_1.FRAMEWORK_TYPES.COVERAGE:
                 if (format) {
-                    command += ` --format ${format.toUpperCase()}`;
+                    command += ` --format=${format.toUpperCase()}`;
                 }
                 else {
                     logger.warning('Coverage format should be given!!!');
@@ -332,15 +332,6 @@ var __importStar = (this && this.__importStar) || function (mod) {
     __setModuleDefault(result, mod);
     return result;
 };
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
@@ -350,9 +341,7 @@ function exitProcessSuccessfully() {
 }
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
-    return __awaiter(this, void 0, void 0, function* () {
-        return `npm install --location=global @thundra/foresight-cli@${version}`;
-    });
+    return `npm install -g @thundra/foresight-cli@${version}`;
 }
 exports.installationCommandOfCli = installationCommandOfCli;
 
@@ -448,15 +437,15 @@ function run() {
         try {
             logger.info('Start getting job info...');
             const jobInfo = yield (0, job_1.getJobInfo)(octokit);
-            logger.info(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
+            logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved!");
             }
             yield (0, job_1.setJobInfoEnvVar)(jobInfo);
             logger.info(`Env vars set!`);
-            logger.info(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
-            logger.info(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
-            yield runCli.runCommand(yield utils.installationCommandOfCli(cliVersion));
+            logger.debug(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
+            logger.debug(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
+            yield runCli.runCommand(utils.installationCommandOfCli(cliVersion));
             if (testFramework && testPath.length > 0) {
                 try {
                     const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat);
