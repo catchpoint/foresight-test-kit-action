@@ -45,7 +45,8 @@ See the [versioning documentation](https://github.com/actions/toolkit/blob/maste
 | Option                | Requirement       | Description
 | ---                   | ---               | ---
 | `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
-| `test_format`      | Optional          | Runtime test format name(jest, pytest, junit etc.)
+| `test_framework`      | Optional          | Runtime test framework name(jest, pytest etc.)
+| `test_format`      | Optional          | Runtime test format name(xml, junit etc.)
 | `test_path`       | Optional              | Test results directory/file path.
 | `coverage_format`      | Optional          | Runtime coverage format name(jacoco etc.)
 | `coverage_path`       | Optional              | Coverage results directory/file path.
@@ -61,6 +62,7 @@ uses: ./
 with:
   api_key: <your_api_key>
   test_format: <test_format>
+  test_format: <test_framework>
   test_path: <test_results_path>
   coverage_format: <coverage_format>
   coverage_path: <coverage_results_path>
@@ -80,6 +82,7 @@ To use the action, add the following step before the steps you want to track.
   with:
     api_key: <your_api_key_required>
     test_format: <test_format_optional>
+    test_framework: <test_framework_optional>
     test_path: <test_results_path_optional>
     coverage_format: <coverage_format_optional>
     coverage_path: <coverage_results_path_optional>
