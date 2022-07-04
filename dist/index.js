@@ -49,7 +49,7 @@ function validateInputs(testFormat, testFramework, testPath, coverageFormat, cov
     }
     if ((!coverageFormat && coveragePath.length > 0) ||
         (coverageFormat && coveragePath.length === 0)) {
-        logger.warning('Please check action inputs for coverage framework and path!');
+        logger.warning('Please check action inputs for coverage format and path!');
         (0, utils_1.exitProcessSuccessfully)();
     }
 }

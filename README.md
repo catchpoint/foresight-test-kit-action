@@ -50,7 +50,7 @@ See the [versioning documentation](https://github.com/actions/toolkit/blob/maste
 | `test_path`       | Optional              | Test results directory/file path.
 | `coverage_format`      | Optional          | Runtime coverage format name(jacoco etc.)
 | `coverage_path`       | Optional              | Coverage results directory/file path.
-| `cli_version`       | Optional              | İnstalled Foresight cli version. Default is latest.
+| `cli_version`       | Optional              | Installed Foresight cli version. Default is latest.
 | `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
 
 ## Validate

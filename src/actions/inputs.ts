@@ -39,7 +39,7 @@ export function validateInputs(
         (coverageFormat && coveragePath.length === 0)
     ) {
         logger.warning(
-            'Please check action inputs for coverage framework and path!'
+            'Please check action inputs for coverage format and path!'
         )
         exitProcessSuccessfully()
     }
