@@ -45,10 +45,10 @@ See the [versioning documentation](https://github.com/actions/toolkit/blob/maste
 | Option                | Requirement       | Description
 | ---                   | ---               | ---
 | `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
-| `test_framework`      | Optional          | Runtime test framework name(jest, pytest etc.)
-| `test_format`      | Optional          | Runtime test format name(xml, junit etc.)
+| `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
+| `test_format`      | Optional          | Runtime test format name(trx, junit etc.)
 | `test_path`       | Optional              | Test results directory/file path.
-| `coverage_format`      | Optional          | Runtime coverage format name(jacoco etc.)
+| `coverage_format`      | Optional          | Runtime coverage format name(jacoco/xml, cobertura/xml, golang etc.)
 | `coverage_path`       | Optional              | Coverage results directory/file path.
 | `cli_version`       | Optional              | Installed Foresight cli version. Default is latest.
 | `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
