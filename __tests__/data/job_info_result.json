@@ -1,0 +1,127 @@
+{
+    "status":200,
+    "url":"https://api.github.com/repos/gokhan721/foresight-action-test/actions/runs/2486396096/jobs?per_page=100&page=0",
+    "headers":{
+       "access-control-allow-origin":"*",
+       "access-control-expose-headers":"ETag, Link, Location, Retry-After, X-GitHub-OTP, X-RateLimit-Limit, X-RateLimit-Remaining, X-RateLimit-Used, X-RateLimit-Resource, X-RateLimit-Reset, X-OAuth-Scopes, X-Accepted-OAuth-Scopes, X-Poll-Interval, X-GitHub-Media-Type, X-GitHub-SSO, X-GitHub-Request-Id, Deprecation, Sunset",
+       "cache-control":"private, max-age=60, s-maxage=60",
+       "connection":"close",
+       "content-encoding":"gzip",
+       "content-security-policy":"default-src 'none'",
+       "content-type":"application/json; charset=utf-8",
+       "date":"Mon, 13 Jun 2022 06:09:26 GMT",
+       "etag":"W/\"2a690bb83fbf79b5e220f5122e8132cfdf8cc3ef01d050701bcf9da20b1f94a4\"",
+       "github-authentication-token-expiration":"2022-07-10 20:41:38 UTC",
+       "referrer-policy":"origin-when-cross-origin, strict-origin-when-cross-origin",
+       "server":"GitHub.com",
+       "strict-transport-security":"max-age=31536000; includeSubdomains; preload",
+       "transfer-encoding":"chunked",
+       "vary":"Accept, Authorization, Cookie, X-GitHub-OTP, Accept-Encoding, Accept, X-Requested-With",
+       "x-accepted-oauth-scopes":"",
+       "x-content-type-options":"nosniff",
+       "x-frame-options":"deny",
+       "x-github-media-type":"github.v3; format=json",
+       "x-github-request-id":"0400:3CE5:1598D8A:306A3FD:62A6D496",
+       "x-oauth-scopes":"repo, workflow",
+       "x-ratelimit-limit":"5000",
+       "x-ratelimit-remaining":"4994",
+       "x-ratelimit-reset":"1655103241",
+       "x-ratelimit-resource":"core",
+       "x-ratelimit-used":"6",
+       "x-xss-protection":"0"
+    },
+    "data":{
+       "total_count":1,
+       "jobs":[
+          {
+             "id":6855980738,
+             "run_id":2486396096,
+             "run_url":"test_run_rul",
+             "run_attempt":1,
+             "node_id":"CR_kwDOHe4aIc8AAAABmKX2wg",
+             "head_sha":"2760820c4e3367812db8c73ed8bcb15326c9c0d8",
+             "url":"test_url",
+             "html_url":"test_html_url",
+             "status":"in_progress",
+             "conclusion":null,
+             "started_at":"2022-06-13T06:09:20Z",
+             "completed_at":null,
+             "name":"build",
+             "steps":[
+                {
+                   "name":"Set up job",
+                   "status":"completed",
+                   "conclusion":"success",
+                   "number":1,
+                   "started_at":"2022-06-13T09:09:19.000+03:00",
+                   "completed_at":"2022-06-13T09:09:21.000+03:00"
+                },
+                {
+                   "name":"Run actions/checkout@v3",
+                   "status":"completed",
+                   "conclusion":"success",
+                   "number":2,
+                   "started_at":"2022-06-13T09:09:21.000+03:00",
+                   "completed_at":"2022-06-13T09:09:22.000+03:00"
+                },
+                {
+                   "name":"Set up Python 3.10",
+                   "status":"completed",
+                   "conclusion":"success",
+                   "number":3,
+                   "started_at":"2022-06-13T09:09:23.000+03:00",
+                   "completed_at":"2022-06-13T09:09:22.000+03:00"
+                },
+                {
+                   "name":"Install dependencies",
+                   "status":"completed",
+                   "conclusion":"success",
+                   "number":4,
+                   "started_at":"2022-06-13T09:09:23.000+03:00",
+                   "completed_at":"2022-06-13T09:09:26.000+03:00"
+                },
+                {
+                   "name":"Test with pytest",
+                   "status":"completed",
+                   "conclusion":"success",
+                   "number":5,
+                   "started_at":"2022-06-13T09:09:26.000+03:00",
+                   "completed_at":"2022-06-13T09:09:26.000+03:00"
+                },
+                {
+                   "name":"Foresight Action",
+                   "status":"in_progress",
+                   "conclusion":null,
+                   "number":6,
+                   "started_at":"2022-06-13T09:09:26.000+03:00",
+                   "completed_at":null
+                },
+                {
+                   "name":"Post Set up Python 3.10",
+                   "status":"queued",
+                   "conclusion":null,
+                   "number":11,
+                   "started_at":null,
+                   "completed_at":null
+                },
+                {
+                   "name":"Post Run actions/checkout@v3",
+                   "status":"queued",
+                   "conclusion":null,
+                   "number":12,
+                   "started_at":null,
+                   "completed_at":null
+                }
+             ],
+             "check_run_url":"test_check_url",
+             "labels":[
+                "ubuntu-latest"
+             ],
+             "runner_id":1,
+             "runner_name":"Hosted Agent",
+             "runner_group_id":2,
+             "runner_group_name":"GitHub Actions"
+          }
+       ]
+    }
+ }
