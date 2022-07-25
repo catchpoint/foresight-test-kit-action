@@ -6,5 +6,5 @@ export function exitProcessSuccessfully() {
 }
 
 export function installationCommandOfCli(version: string) {
-    return `npm install -g @thundra/foresight-cli@${version}`
+    return `npm install -g @runforesight/foresight-cli@${version}`
 }
