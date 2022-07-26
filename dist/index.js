@@ -277,7 +277,7 @@ exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
+        let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
             case constants_1.FRAMEWORK_TYPES.TEST:
                 command += ` --framework=${framework.toUpperCase()}`;
@@ -341,7 +341,7 @@ function exitProcessSuccessfully() {
 }
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
-    return `npm install -g @thundra/foresight-cli@${version}`;
+    return `npm install -g @runforesight/foresight-cli@${version}`;
 }
 exports.installationCommandOfCli = installationCommandOfCli;
 
@@ -354,8 +354,7 @@ exports.installationCommandOfCli = installationCommandOfCli;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.FRAMEWORK_TYPES = exports.FORESIGHT_WORKFLOW_ENV_VARS = exports.MIN_FORESIGHT_CLI_VERSION = void 0;
-exports.MIN_FORESIGHT_CLI_VERSION = '2.7.0'; // TODO After release foresight change it!
+exports.FRAMEWORK_TYPES = exports.FORESIGHT_WORKFLOW_ENV_VARS = void 0;
 exports.FORESIGHT_WORKFLOW_ENV_VARS = {
     FORESIGHT_WORKFLOW_JOB_ID: 'FORESIGHT_WORKFLOW_JOB_ID',
     FORESIGHT_WORKFLOW_JOB_NAME: 'FORESIGHT_WORKFLOW_JOB_NAME'

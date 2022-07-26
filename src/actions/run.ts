@@ -24,7 +24,7 @@ export async function generateCliCommand(
     framework: string,
     format: string | undefined
 ) {
-    let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
+    let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
         case FRAMEWORK_TYPES.TEST:
             command += ` --framework=${framework.toUpperCase()}`
