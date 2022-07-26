@@ -78,7 +78,7 @@ To use the action, add the following step before the steps you want to track.
 
 ```yaml
 - name: Analyze Test and/or Coverage Results
-  uses: thundra-io/foresight-test-kit-action@v1
+  uses: runforesight/foresight-test-kit-action@v1
   with:
     api_key: <your_api_key_required>
     test_format: <test_format_optional>

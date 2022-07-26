@@ -277,7 +277,7 @@ exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
     return __awaiter(this, void 0, void 0, function* () {
-        let command = `thundra-foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
+        let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
             case constants_1.FRAMEWORK_TYPES.TEST:
                 command += ` --framework=${framework.toUpperCase()}`;
