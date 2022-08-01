@@ -1,84 +1,50 @@
 # Foresight Test Kit Action
 
-A GitHub Action to analyze test and/or coverage results.
+A GitHub Action to analyze test and/or coverage results. Foresight’s Test Kit action integrates with your Github Actions pipelines.
 
-## Code in Main
+- It makes simple to see failed tests, visualize performance of your tests and see their logs. It is the fastest way to access a failed test results in your workflow runs.
+- It correlates the changes to the codebase with the test coverage reports to determine how much of the changes are covered by the tests.
 
-> First, you'll need to have a reasonably modern version of `node` handy. This won't work with versions older than 9, for instance.
+You need to integrate Test Kit action to your CI pipeline in order to use [Test Monitoring](https://foresight.docs.thundra.io/features/test-runs) and 
+[Change Impact Analysis](https://foresight.docs.thundra.io/features/analyze-code-change-impact) features.
 
-Install the dependencies  
-```bash
-$ npm install
-```
+> **_NOTE:_** ⚠️ You'll need to have a reasonably modern version of `node`. This won't work with versions older than 9, for instance.
 
-Build the typescript and package it for distribution
-```bash
-$ npm run all
-```
+## Prerequisites
+Foresight analyzes your test and coverage report artifacts. 
 
-Run the tests :heavy_check_mark:  
-```bash
-$ npm test
-```
+### Available test framework and report pairs:
 
-## Publish to a distribution branch
+| Test framework | Report format  |
+|----------------|----------------|
+|TESTNG|n/a*|
+|JUNIT|n/a*|
+|JEST|JUNIT|
+|PYTEST|JUNIT|
+|XUNIT2|n/a*|
+|XUNIT2|TRX|
+|GOLANG|n/a*|
 
-Actions are run from GitHub repos so we will checkin the packed dist folder. 
+> **_NOTE:_** ⚠️ You don't need to fill report format fields marked as **n/a**.
 
-Then run [ncc](https://github.com/zeit/ncc) and push the results:
-```bash
-$ npm run package
-$ git add dist
-$ git commit -a -m "prod dependencies"
-$ git push origin releases/v1
-```
+### Available coverage formats:
 
-Note: We recommend using the `--license` option for ncc, which will create a license file for all of the production node modules used in your project.
+| Coverage formats  |
+|----------------|
+|JACOCO/XML|
+|COBERTURA/XML|
+|GOLANG|
 
-Your action is now published! :rocket: 
+## Usage
 
-See the [versioning documentation](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md)
+To use the action, add the following step after your test execution step. Please fill the `test_format`, `test_framework` and `coverage_format` fields by checking the supported options above.
 
-
-## Configuration
-
-| Option                | Requirement       | Description
-| ---                   | ---               | ---
-| `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
-| `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
-| `test_format`      | Optional          | Runtime test format name(trx, junit etc.)
-| `test_path`       | Optional              | Test results directory/file path.
-| `coverage_format`      | Optional          | Runtime coverage format name(jacoco/xml, cobertura/xml, golang etc.)
-| `coverage_path`       | Optional              | Coverage results directory/file path.
-| `cli_version`       | Optional              | Installed Foresight cli version. Default is latest.
-| `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
-
-## Validate
-
-You can now validate the action by referencing `./` in a workflow in your repo (see [test.yml](.github/workflows/test.yml))
-
-```yaml
-uses: ./
-with:
-  api_key: <your_api_key>
-  test_format: <test_format>
-  test_format: <test_framework>
-  test_path: <test_results_path>
-  coverage_format: <coverage_format>
-  coverage_path: <coverage_results_path>
-```
-
-See the [actions tab](https://github.com/actions/typescript-action/actions) for runs of this action!
-
-## Usage:
-
-After testing you can [create a v1 tag](https://github.com/actions/toolkit/blob/master/docs/action-versioning.md) to reference the stable and latest V1 action
-
-To use the action, add the following step before the steps you want to track.
+You can get your `api_key` after sign up to Foresight.
 
 ```yaml
 - name: Analyze Test and/or Coverage Results
-  uses: runforesight/foresight-test-kit-action@v1
+  uses: thundra-io/foresight-test-kit-action@v1
+  if: success() || failure()
   with:
     api_key: <your_api_key_required>
     test_format: <test_format_optional>
@@ -87,3 +53,17 @@ To use the action, add the following step before the steps you want to track.
     coverage_format: <coverage_format_optional>
     coverage_path: <coverage_results_path_optional>
 ```
+
+## Configuration
+
+| Option                | Requirement       | Description
+| ---                   | ---               | ---
+| `api_key`        | Required          |  Foresight Api Key.
+| `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
+| `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
+| `test_format`      | Optional          | Runtime test format name(trx, junit etc.)
+| `test_path`       | Optional              | Test results directory/file path.
+| `coverage_format`      | Optional          | Runtime coverage format name(jacoco/xml, cobertura/xml, golang etc.)
+| `coverage_path`       | Optional              | Coverage results directory/file path.
+| `cli_version`       | Optional              | Installed Foresight cli version. Default is latest.
+| `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.
