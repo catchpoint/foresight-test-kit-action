@@ -8,9 +8,7 @@ A GitHub Action to analyze test and/or coverage results. Foresight’s Test Kit 
 You need to integrate Test Kit action to your CI pipeline in order to use [Test Monitoring](https://foresight.docs.thundra.io/features/test-runs) and 
 [Change Impact Analysis](https://foresight.docs.thundra.io/features/analyze-code-change-impact) features.
 
-:::info
-You'll need to have a reasonably modern version of `node`. This won't work with versions older than 9, for instance.
-:::
+> **_NOTE:_** ⚠️ You'll need to have a reasonably modern version of `node`. This won't work with versions older than 9, for instance.
 
 ## Prerequisites
 Foresight analyzes your test and coverage report artifacts. 
@@ -27,9 +25,7 @@ Foresight analyzes your test and coverage report artifacts.
 |XUNIT2|TRX|
 |GOLANG|n/a*|
 
-:::info
-You don't need to fill report format fields marked as **n/a**.
-:::
+> **_NOTE:_** ⚠️ You don't need to fill report format fields marked as **n/a**.
 
 ### Available coverage formats:
 
