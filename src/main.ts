@@ -6,7 +6,7 @@ import {getJobInfo, setJobInfoEnvVar} from './actions/job'
 import {FRAMEWORK_TYPES} from './constants'
 import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
-import { RunCommandOptions } from './actions/run'
+import {RunCommandOptions} from './actions/run'
 
 const apiKey: string = core.getInput('api_key', {required: true})
 const testFramework: string = core.getInput('test_framework', {
@@ -29,7 +29,9 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', {
 })
 const cliVersion: string = core.getInput('cli_version', {required: false})
 
-const workingDirectory: string = core.getInput('working-directory', {required: false})
+const workingDirectory: string = core.getInput('working-directory', {
+    required: false
+})
 
 validateInputs(
     testFormat,

@@ -3,10 +3,9 @@ import * as logger from './logger'
 import {FRAMEWORK_TYPES} from '../constants'
 import {exitProcessSuccessfully} from './utils'
 
-
 export interface RunCommandOptions {
-    args?: string[],
-    envVariables?: {},
+    args?: string[]
+    envVariables?: {}
     workingDirectory?: string
 }
 
