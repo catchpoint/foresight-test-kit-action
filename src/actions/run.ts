@@ -3,15 +3,22 @@ import * as logger from './logger'
 import {FRAMEWORK_TYPES} from '../constants'
 import {exitProcessSuccessfully} from './utils'
 
+
+export interface RunCommandOptions {
+    args?: string[],
+    envVariables?: {},
+    workingDirectory?: string
+}
+
 export async function runCommand(
     command: string,
-    args: string[] = [],
-    envVariables = {}
+    options?: RunCommandOptions
 ): Promise<number> {
-    return exec.exec(command, args, {
+    return exec.exec(command, options?.args, {
+        cwd: options?.workingDirectory,
         env: {
             ...process.env,
-            ...envVariables
+            ...options?.envVariables
         }
     })
 }

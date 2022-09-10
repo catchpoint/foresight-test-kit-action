@@ -6,6 +6,7 @@ import {getJobInfo, setJobInfoEnvVar} from './actions/job'
 import {FRAMEWORK_TYPES} from './constants'
 import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
+import { RunCommandOptions } from './actions/run'
 
 const apiKey: string = core.getInput('api_key', {required: true})
 const testFramework: string = core.getInput('test_framework', {
@@ -27,6 +28,8 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', {
     required: false
 })
 const cliVersion: string = core.getInput('cli_version', {required: false})
+
+const workingDirectory: string = core.getInput('working-directory', {required: false})
 
 validateInputs(
     testFormat,
@@ -55,6 +58,9 @@ async function run(): Promise<void> {
             `FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`
         )
         await runCli.runCommand(utils.installationCommandOfCli(cliVersion))
+        const options: RunCommandOptions = {
+            workingDirectory
+        }
         if (testFramework && testPath.length > 0) {
             try {
                 const command = await runCli.generateCliCommand(
@@ -64,7 +70,7 @@ async function run(): Promise<void> {
                     testFramework,
                     testFormat
                 )
-                await runCli.runCommand(command)
+                await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Test results couldn't retrieved!")
                 if (error instanceof Error) core.setFailed(error.message)
@@ -79,7 +85,7 @@ async function run(): Promise<void> {
                     '',
                     coverageFormat
                 )
-                await runCli.runCommand(command)
+                await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Coverage results couldn't retrieved!")
                 if (error instanceof Error) core.setFailed(error.message)
