@@ -29,7 +29,7 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', {
 })
 const cliVersion: string = core.getInput('cli_version', {required: false})
 
-const workingDirectory: string = core.getInput('working-directory', {
+const workingDirectory: string = core.getInput('working_directory', {
     required: false
 })
 

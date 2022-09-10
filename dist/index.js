@@ -430,7 +430,7 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
-const workingDirectory = core.getInput('working-directory', {
+const workingDirectory = core.getInput('working_directory', {
     required: false
 });
 (0, inputs_1.validateInputs)(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
