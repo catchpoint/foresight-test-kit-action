@@ -44,7 +44,28 @@ describe('Generate Cli Commands', () => {
             )
         const data: any = await run.runCommand('test_command')
         expect(data.commandLine).toEqual('test_command')
-        expect(data.args.length).toEqual(0)
+        expect(data.options.cwd).toEqual(undefined)
+        expect(data.options).not.toBeNull()
+    })
+
+    it('test run command with working_directory', async () => {
+        const mockExec = jest
+            .spyOn(exec, 'exec')
+            .mockImplementation(
+                (
+                    commandLine: string,
+                    args?: string[] | undefined,
+                    options?: exec.ExecOptions | undefined
+                ): any => {
+                    return {commandLine, args, options}
+                }
+            )
+        const options: run.RunCommandOptions = {
+            workingDirectory: '.'
+        }
+        const data: any = await run.runCommand('test_command', options)
+        expect(data.commandLine).toEqual('test_command')
+        expect(data.options.cwd).toEqual('.')
         expect(data.options).not.toBeNull()
     })
 })
