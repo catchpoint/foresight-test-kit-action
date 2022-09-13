@@ -66,4 +66,5 @@ You can get your `api_key` after sign up to Foresight.
 | `coverage_format`      | Optional          | Runtime coverage format name(jacoco/xml, cobertura/xml, golang etc.)
 | `coverage_path`       | Optional              | Coverage results directory/file path.
 | `cli_version`       | Optional              | Installed Foresight cli version. Default is latest.
+| `working_directory`       | Optional              | Specify it if you change default working directory for run.
 | `disable_action`       | Optional              | Disable Foresight test kit action without removing from yml.

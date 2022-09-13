@@ -37,6 +37,10 @@ inputs:
     description: "Foresight CLI Version"
     default: latest
     required: false
+  working_directory:
+    description: "Foresight Working Directory"
+    default: ''
+    required: false
 runs:
   using: "node16"
   main: "dist/index.js"

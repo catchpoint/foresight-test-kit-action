@@ -266,10 +266,11 @@ const exec = __importStar(__nccwpck_require__(1514));
 const logger = __importStar(__nccwpck_require__(37));
 const constants_1 = __nccwpck_require__(7306);
 const utils_1 = __nccwpck_require__(5505);
-function runCommand(command, args = [], envVariables = {}) {
+function runCommand(command, options) {
     return __awaiter(this, void 0, void 0, function* () {
-        return exec.exec(command, args, {
-            env: Object.assign(Object.assign({}, process.env), envVariables)
+        return exec.exec(command, options === null || options === void 0 ? void 0 : options.args, {
+            cwd: options === null || options === void 0 ? void 0 : options.workingDirectory,
+            env: Object.assign(Object.assign({}, process.env), options === null || options === void 0 ? void 0 : options.envVariables)
         });
     });
 }
@@ -429,6 +430,9 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
+const workingDirectory = core.getInput('working_directory', {
+    required: false
+});
 (0, inputs_1.validateInputs)(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
@@ -445,10 +449,13 @@ function run() {
             logger.debug(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.debug(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             yield runCli.runCommand(utils.installationCommandOfCli(cliVersion));
+            const options = {
+                workingDirectory
+            };
             if (testFramework && testPath.length > 0) {
                 try {
                     const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat);
-                    yield runCli.runCommand(command);
+                    yield runCli.runCommand(command, options);
                 }
                 catch (error) {
                     logger.error("Test results couldn't retrieved!");
@@ -459,7 +466,7 @@ function run() {
             if (coverageFormat && coveragePath.length > 0) {
                 try {
                     const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.COVERAGE, coveragePath, '', coverageFormat);
-                    yield runCli.runCommand(command);
+                    yield runCli.runCommand(command, options);
                 }
                 catch (error) {
                     logger.error("Coverage results couldn't retrieved!");
