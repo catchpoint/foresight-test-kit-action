@@ -43,7 +43,7 @@ You can get your `api_key` after sign up to Foresight.
 
 ```yaml
 - name: Analyze Test and/or Coverage Results
-  uses: thundra-io/foresight-test-kit-action@v1
+  uses: runforesight/foresight-test-kit-action@v1
   if: success() || failure()
   with:
     api_key: <your_api_key_required>
