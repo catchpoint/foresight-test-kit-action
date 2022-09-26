@@ -1,4 +1,5 @@
 import * as core from '@actions/core'
+import * as github from '@actions/github'
 import * as logger from './actions/logger'
 import * as runCli from './actions/run'
 import * as utils from './actions/utils'
@@ -7,8 +8,8 @@ import {FRAMEWORK_TYPES} from './constants'
 import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
 import {RunCommandOptions} from './actions/run'
+import {getApiKey} from './utils'
 
-const apiKey: string = core.getInput('api_key', {required: true})
 const testFramework: string = core.getInput('test_framework', {
     required: false
 })
@@ -51,6 +52,15 @@ async function run(): Promise<void> {
         if (!jobInfo.id || !jobInfo.name) {
             logger.notice("Workflow job information couldn't retrieved!")
         }
+
+        const {repo, runId} = github.context
+        const apiKeyInfo = await getApiKey(repo.owner, repo.repo, runId)
+        if (apiKeyInfo == null || apiKeyInfo.apiKey == null) {
+            logger.error(`ApiKey is not exists! Data can not be send.`)
+            return
+        }
+        const apiKey: string = apiKeyInfo.apiKey
+
         await setJobInfoEnvVar(jobInfo)
         logger.info(`Env vars set!`)
         logger.debug(
