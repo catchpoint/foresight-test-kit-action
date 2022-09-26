@@ -49,7 +49,7 @@ async function getOnDemandApiKey(
                 }
             }
         )
-        logger.debug(`Data: ${data}`)
+        logger.debug(JSON.stringify(data, null, 4))
         return data
     } catch (error) {
         if (axios.isAxiosError(error)) {

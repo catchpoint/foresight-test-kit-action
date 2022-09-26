@@ -536,8 +536,9 @@ const logger = __importStar(__nccwpck_require__(37));
 const core = __importStar(__nccwpck_require__(2186));
 const axios_1 = __importDefault(__nccwpck_require__(6545));
 const path = __importStar(__nccwpck_require__(5622));
-const ON_DEMAND_API_KEY_BASE_URL = `${process.env["ON_DEMAND_API_KEY_BASE_URL"] || "https://api-public.service.runforesight.com"}`;
-exports.ON_DEMAND_API_KEY_ENDPOINT = new URL(path.join("api", "v1/apikey/ondemand"), ON_DEMAND_API_KEY_BASE_URL).toString();
+const ON_DEMAND_API_KEY_BASE_URL = `${process.env['ON_DEMAND_API_KEY_BASE_URL'] ||
+    'https://api-public.service.runforesight.com'}`;
+exports.ON_DEMAND_API_KEY_ENDPOINT = new URL(path.join('api', 'v1/apikey/ondemand'), ON_DEMAND_API_KEY_BASE_URL).toString();
 function getApiKey(owner, repoName, workflowRunId) {
     return __awaiter(this, void 0, void 0, function* () {
         const apiKey = core.getInput('api_key');
@@ -566,7 +567,7 @@ function getOnDemandApiKey(onDemandAPIKey) {
                     'Content-type': 'application/json; charset=utf-8'
                 }
             });
-            logger.debug(`Data: ${data}`);
+            logger.debug(JSON.stringify(data, null, 4));
             return data;
         }
         catch (error) {
