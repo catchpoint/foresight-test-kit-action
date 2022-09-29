@@ -58,7 +58,7 @@ You can get your `api_key` after sign up to Foresight.
 
 | Option                | Requirement       | Description
 | ---                   | ---               | ---
-| `api_key`        | Required          |  Foresight Api Key.
+| `api_key`        | Optional          |  Foresight API Key. Foresight API key is **required** for private repositories but **optional** for public open-source repositories.  
 | `github_token`        | Optional          | An alternative GitHub token, other than the default provided by GitHub Actions runner.
 | `test_framework`      | Optional          | Runtime test framework name(jest, pytest, junit etc.)
 | `test_format`      | Optional          | Runtime test format name(trx, junit etc.)
