@@ -85,7 +85,6 @@ async function run(): Promise<void> {
                 await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Test results couldn't retrieved!")
-                if (error instanceof Error) core.setFailed(error.message)
             }
         }
         if (coverageFormat && coveragePath.length > 0) {
@@ -100,11 +99,10 @@ async function run(): Promise<void> {
                 await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Coverage results couldn't retrieved!")
-                if (error instanceof Error) core.setFailed(error.message)
             }
         }
-    } catch (error) {
-        if (error instanceof Error) core.setFailed(error.message)
+    } catch (error: any) {
+        logger.error('While getting job info: ' + error.message)
     }
 }
 
