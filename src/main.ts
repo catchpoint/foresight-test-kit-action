@@ -102,6 +102,9 @@ async function run(): Promise<void> {
             }
         }
     } catch (error: any) {
+        logger.info(
+            `Please sure that your workflow have actions:read permission!`
+        )
         logger.error('While getting job info: ' + error.message)
     }
 }

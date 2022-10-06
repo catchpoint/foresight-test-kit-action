@@ -480,7 +480,8 @@ function run() {
             }
         }
         catch (error) {
-            logger.error("While getting job info: " + error.message);
+            logger.info(`Please sure that your workflow have actions:read permission!`);
+            logger.error('While getting job info: ' + error.message);
         }
     });
 }
