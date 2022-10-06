@@ -444,6 +444,7 @@ function run() {
             logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             if (!jobInfo.id || !jobInfo.name) {
                 logger.notice("Workflow job information couldn't retrieved!");
+                return;
             }
             const { repo, runId } = github.context;
             const apiKeyInfo = yield (0, utils_1.getApiKey)(repo.owner, repo.repo, runId);

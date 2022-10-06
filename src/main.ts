@@ -51,6 +51,7 @@ async function run(): Promise<void> {
         logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
         if (!jobInfo.id || !jobInfo.name) {
             logger.notice("Workflow job information couldn't retrieved!")
+            return
         }
 
         const {repo, runId} = github.context
