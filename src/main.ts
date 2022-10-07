@@ -51,6 +51,7 @@ async function run(): Promise<void> {
         logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
         if (!jobInfo.id || !jobInfo.name) {
             logger.notice("Workflow job information couldn't retrieved!")
+            return
         }
 
         const {repo, runId} = github.context
@@ -85,7 +86,6 @@ async function run(): Promise<void> {
                 await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Test results couldn't retrieved!")
-                if (error instanceof Error) core.setFailed(error.message)
             }
         }
         if (coverageFormat && coveragePath.length > 0) {
@@ -100,11 +100,13 @@ async function run(): Promise<void> {
                 await runCli.runCommand(command, options)
             } catch (error) {
                 logger.error("Coverage results couldn't retrieved!")
-                if (error instanceof Error) core.setFailed(error.message)
             }
         }
-    } catch (error) {
-        if (error instanceof Error) core.setFailed(error.message)
+    } catch (error: any) {
+        logger.error('Unexpected error occured: ' + error.message)
+        logger.warning(
+            `If error is related to permissions, please be sure that your workflow have actions:read permission!`
+        )
     }
 }
 
