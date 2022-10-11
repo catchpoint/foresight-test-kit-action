@@ -49,10 +49,6 @@ async function run(): Promise<void> {
         logger.info('Start getting job info...')
         const jobInfo = await getJobInfo(octokit)
         logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`)
-        if (!jobInfo.id || !jobInfo.name) {
-            logger.notice("Workflow job information couldn't retrieved!")
-            return
-        }
 
         const {repo, runId} = github.context
         const apiKeyInfo = await getApiKey(repo.owner, repo.repo, runId)
@@ -61,7 +57,6 @@ async function run(): Promise<void> {
             return
         }
         const apiKey: string = apiKeyInfo.apiKey
-
         await setJobInfoEnvVar(jobInfo)
         logger.info(`Env vars set!`)
         logger.debug(

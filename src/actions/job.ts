@@ -23,8 +23,13 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                     per_page: PAGE_SIZE,
                     page
                 })
-            } catch (error) {
+            } catch (error: any) {
                 result = undefined
+                logger.info(`Error on getting job info...: ${error}`)
+                if (error.status === 403) {
+                    logger.info('Bad credentials error...')
+                    return {}
+                }
             }
             if (!result) {
                 break
@@ -68,12 +73,16 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function setJobInfoEnvVar(jobInfo: JobInfo) {
-    core.exportVariable(
-        FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID,
-        jobInfo.id
-    )
-    core.exportVariable(
-        FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME,
-        jobInfo.name
-    )
+    if (jobInfo.id !== undefined) {
+        core.exportVariable(
+            FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID,
+            jobInfo.id
+        )
+    }
+    if (jobInfo.id !== undefined) {
+        core.exportVariable(
+            FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME,
+            jobInfo.name
+        )
+    }
 }
