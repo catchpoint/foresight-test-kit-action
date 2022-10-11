@@ -119,10 +119,11 @@ function getJobInfo(octokit) {
                 catch (error) {
                     result = undefined;
                     logger.info(`Error on getting job info...: ${error}`);
-                    if (error.status === 403) {
-                        logger.info('Bad credentials error...');
-                        return {};
-                    }
+                    return {
+                        id: undefined,
+                        name: undefined,
+                        errorCode: error.status
+                    };
                 }
                 if (!result) {
                     break;
@@ -153,7 +154,7 @@ function getJobInfo(octokit) {
         });
         for (let i = 0; i < 10; i++) {
             const currentJobInfo = yield _getJobInfo();
-            if (currentJobInfo && currentJobInfo.id) {
+            if (currentJobInfo && (currentJobInfo.id || currentJobInfo.errorCode)) {
                 return currentJobInfo;
             }
             yield new Promise(r => setTimeout(r, 1000));

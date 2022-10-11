@@ -1,6 +1,7 @@
 export interface JobInfo {
     readonly id?: number
     readonly name?: string
+    readonly errorCode?: number
 }
 
 export interface ApiKeyInfo {

@@ -4,6 +4,7 @@ import * as logger from './logger'
 import {FORESIGHT_WORKFLOW_ENV_VARS} from '../constants'
 import {JobInfo} from '../interfaces'
 import {Octokit} from '@octokit/action'
+import {RequestError} from '@octokit/request-error'
 
 const PAGE_SIZE = 100
 const {repo, runId} = github.context
@@ -26,9 +27,10 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
             } catch (error: any) {
                 result = undefined
                 logger.info(`Error on getting job info...: ${error}`)
-                if (error.status === 403) {
-                    logger.info('Bad credentials error...')
-                    return {}
+                return {
+                    id: undefined,
+                    name: undefined,
+                    errorCode: error.status
                 }
             }
             if (!result) {
@@ -63,7 +65,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
     }
     for (let i = 0; i < 10; i++) {
         const currentJobInfo = await _getJobInfo()
-        if (currentJobInfo && currentJobInfo.id) {
+        if (currentJobInfo && (currentJobInfo.id || currentJobInfo.errorCode)) {
             return currentJobInfo
         }
         await new Promise(r => setTimeout(r, 1000))
