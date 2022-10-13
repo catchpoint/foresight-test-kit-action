@@ -97,6 +97,7 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const logger = __importStar(__nccwpck_require__(37));
 const constants_1 = __nccwpck_require__(7306);
+const request_error_1 = __nccwpck_require__(537);
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
 logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
@@ -119,11 +120,14 @@ function getJobInfo(octokit) {
                 catch (error) {
                     result = undefined;
                     logger.info(`Error on getting job info...: ${error}`);
-                    return {
-                        id: undefined,
-                        name: undefined,
-                        errorCode: error.status
-                    };
+                    if (error instanceof request_error_1.RequestError) {
+                        logger.info(`Error on getting job info...:${JSON.stringify(error.response)}`);
+                        return {
+                            id: undefined,
+                            name: undefined,
+                            permissionError: true
+                        };
+                    }
                 }
                 if (!result) {
                     break;
@@ -154,7 +158,7 @@ function getJobInfo(octokit) {
         });
         for (let i = 0; i < 10; i++) {
             const currentJobInfo = yield _getJobInfo();
-            if (currentJobInfo && (currentJobInfo.id || currentJobInfo.errorCode)) {
+            if (currentJobInfo && (currentJobInfo.id || currentJobInfo.permissionError)) {
                 return currentJobInfo;
             }
             yield new Promise(r => setTimeout(r, 1000));

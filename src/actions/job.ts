@@ -27,10 +27,15 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
             } catch (error: any) {
                 result = undefined
                 logger.info(`Error on getting job info...: ${error}`)
-                return {
-                    id: undefined,
-                    name: undefined,
-                    errorCode: error.status
+                if (error instanceof RequestError) {
+                    logger.info(
+                        `Error on getting job info...:${JSON.stringify(error.response)}`
+                    )
+                    return {
+                        id: undefined,
+                        name: undefined,
+                        permissionError: true
+                    }
                 }
             }
             if (!result) {
@@ -65,7 +70,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
     }
     for (let i = 0; i < 10; i++) {
         const currentJobInfo = await _getJobInfo()
-        if (currentJobInfo && (currentJobInfo.id || currentJobInfo.errorCode)) {
+        if (currentJobInfo && (currentJobInfo.id || currentJobInfo.permissionError)) {
             return currentJobInfo
         }
         await new Promise(r => setTimeout(r, 1000))
