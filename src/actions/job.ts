@@ -26,15 +26,24 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                 })
             } catch (error: any) {
                 result = undefined
-                logger.info(`Error on getting job info...: ${error}`)
                 if (error instanceof RequestError) {
-                    logger.info(
-                        `Error on getting job info...:${JSON.stringify(error.response)}`
-                    )
-                    return {
-                        id: undefined,
-                        name: undefined,
-                        permissionError: true
+
+                    /**
+                     * check whether error is Resource not accessible by integration or not
+                     * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                     * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                     * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                     */
+                    if (
+                        error.response?.headers['x-ratelimit-remaining'] !==
+                            '0' &&
+                        error.status === 403
+                    ) {
+                        return {
+                            id: undefined,
+                            name: undefined,
+                            notAccesible: true
+                        }
                     }
                 }
             }
@@ -70,7 +79,10 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
     }
     for (let i = 0; i < 10; i++) {
         const currentJobInfo = await _getJobInfo()
-        if (currentJobInfo && (currentJobInfo.id || currentJobInfo.permissionError)) {
+        if (
+            currentJobInfo &&
+            (currentJobInfo.id || currentJobInfo.notAccesible === true)
+        ) {
             return currentJobInfo
         }
         await new Promise(r => setTimeout(r, 1000))

@@ -105,6 +105,7 @@ function getJobInfo(octokit) {
     return __awaiter(this, void 0, void 0, function* () {
         const condition = true;
         const _getJobInfo = () => __awaiter(this, void 0, void 0, function* () {
+            var _a;
             for (let page = 0; condition; page++) {
                 logger.debug(`Get job info start: ${page}`);
                 let result;
@@ -119,14 +120,22 @@ function getJobInfo(octokit) {
                 }
                 catch (error) {
                     result = undefined;
-                    logger.info(`Error on getting job info...: ${error}`);
                     if (error instanceof request_error_1.RequestError) {
-                        logger.info(`Error on getting job info...:${JSON.stringify(error.response)}`);
-                        return {
-                            id: undefined,
-                            name: undefined,
-                            permissionError: true
-                        };
+                        /**
+                         * check whether error is Resource not accessible by integration or not
+                         * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                         * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                         * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                         */
+                        if (((_a = error.response) === null || _a === void 0 ? void 0 : _a.headers['x-ratelimit-remaining']) !==
+                            '0' &&
+                            error.status === 403) {
+                            return {
+                                id: undefined,
+                                name: undefined,
+                                notAccesible: true
+                            };
+                        }
                     }
                 }
                 if (!result) {
@@ -158,7 +167,8 @@ function getJobInfo(octokit) {
         });
         for (let i = 0; i < 10; i++) {
             const currentJobInfo = yield _getJobInfo();
-            if (currentJobInfo && (currentJobInfo.id || currentJobInfo.permissionError)) {
+            if (currentJobInfo &&
+                (currentJobInfo.id || currentJobInfo.notAccesible === true)) {
                 return currentJobInfo;
             }
             yield new Promise(r => setTimeout(r, 1000));

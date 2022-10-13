@@ -1,7 +1,7 @@
 export interface JobInfo {
     readonly id?: number
     readonly name?: string
-    readonly permissionError?: boolean
+    readonly notAccesible?: boolean | false
 }
 
 export interface ApiKeyInfo {
