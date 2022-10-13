@@ -42,7 +42,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                         return {
                             id: undefined,
                             name: undefined,
-                            notAccesible: true
+                            notAccessible: true
                         }
                     }
                 }
@@ -81,7 +81,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
         const currentJobInfo = await _getJobInfo()
         if (
             currentJobInfo &&
-            (currentJobInfo.id || currentJobInfo.notAccesible === true)
+            (currentJobInfo.id || currentJobInfo.notAccessible === true)
         ) {
             return currentJobInfo
         }

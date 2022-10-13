@@ -1,3 +1,4 @@
+import {RequestError} from "@octokit/request-error";
 import * as path from 'path'
 import {Octokit} from '@octokit/action'
 import {expect, jest} from '@jest/globals'
@@ -57,7 +58,10 @@ describe('JOB INFO', () => {
         const mockListWorkflow = jest
             .spyOn(octokit.rest.actions, 'listJobsForWorkflowRun')
             .mockImplementation((data: any) => {
-                let error = new Error();
+                const error = new RequestError('', 403, {
+                    request: { url: '', headers: {}, method: 'PATCH' },
+                    response: { data: null, headers: {}, status: 403, url: '' }
+                });
                 throw error;
             })
         const job = await jobInfo.getJobInfo(octokit)

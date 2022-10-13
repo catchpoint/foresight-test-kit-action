@@ -133,7 +133,7 @@ function getJobInfo(octokit) {
                             return {
                                 id: undefined,
                                 name: undefined,
-                                notAccesible: true
+                                notAccessible: true
                             };
                         }
                     }
@@ -168,7 +168,7 @@ function getJobInfo(octokit) {
         for (let i = 0; i < 10; i++) {
             const currentJobInfo = yield _getJobInfo();
             if (currentJobInfo &&
-                (currentJobInfo.id || currentJobInfo.notAccesible === true)) {
+                (currentJobInfo.id || currentJobInfo.notAccessible === true)) {
                 return currentJobInfo;
             }
             yield new Promise(r => setTimeout(r, 1000));
