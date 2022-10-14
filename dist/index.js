@@ -121,6 +121,7 @@ function getJobInfo(octokit) {
                 catch (error) {
                     result = undefined;
                     if (error instanceof request_error_1.RequestError) {
+                        logger.info(`Exception occured while fetch job info from github: ${error.message}`);
                         /**
                          * check whether error is Resource not accessible by integration or not
                          * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
