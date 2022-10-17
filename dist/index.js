@@ -118,7 +118,6 @@ function getJobInfo(octokit) {
                 }
                 catch (error) {
                     result = undefined;
-                    logger.debug(`Exception occured while fetching job info from github: ${error.message}`);
                     /**
                      * check whether error is Resource not accessible by integration or not
                      * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
@@ -131,6 +130,7 @@ function getJobInfo(octokit) {
                         error.status &&
                         error.response.headers['x-ratelimit-remaining'] !== '0' &&
                         error.status === 403) {
+                        logger.debug(`Exception occured while fetching job info from github: ${error.message}`);
                         return {
                             id: undefined,
                             name: undefined,
