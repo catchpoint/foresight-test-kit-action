@@ -26,24 +26,27 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                 })
             } catch (error: any) {
                 result = undefined
-                if (error instanceof RequestError) {
-                    logger.info(`Exception occured while fetch job info from github: ${  error.message}`)
-                    /**
-                     * check whether error is Resource not accessible by integration or not
-                     * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
-                     * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
-                     * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
-                     */
-                    if (
-                        error.response?.headers['x-ratelimit-remaining'] !==
-                            '0' &&
-                        error.status === 403
-                    ) {
-                        return {
-                            id: undefined,
-                            name: undefined,
-                            notAccessible: true
-                        }
+                logger.info(
+                    `Exception occured while fetch job info from github: ${error.message}`
+                )
+                /**
+                 * check whether error is Resource not accessible by integration or not
+                 * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                 * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                 * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                 */
+                if (
+                    error &&
+                    error.response &&
+                    error.response.headers &&
+                    error.status &&
+                    error.response?.headers['x-ratelimit-remaining'] !== '0' &&
+                    error.status === 403
+                ) {
+                    return {
+                        id: undefined,
+                        name: undefined,
+                        notAccessible: true
                     }
                 }
             }

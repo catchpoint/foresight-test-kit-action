@@ -97,7 +97,6 @@ const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
 const logger = __importStar(__nccwpck_require__(37));
 const constants_1 = __nccwpck_require__(7306);
-const request_error_1 = __nccwpck_require__(537);
 const PAGE_SIZE = 100;
 const { repo, runId } = github.context;
 logger.debug(`repo: ${repo.owner}, runId: ${runId}`);
@@ -120,23 +119,24 @@ function getJobInfo(octokit) {
                 }
                 catch (error) {
                     result = undefined;
-                    if (error instanceof request_error_1.RequestError) {
-                        logger.info(`Exception occured while fetch job info from github: ${error.message}`);
-                        /**
-                         * check whether error is Resource not accessible by integration or not
-                         * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
-                         * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
-                         * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
-                         */
-                        if (((_a = error.response) === null || _a === void 0 ? void 0 : _a.headers['x-ratelimit-remaining']) !==
-                            '0' &&
-                            error.status === 403) {
-                            return {
-                                id: undefined,
-                                name: undefined,
-                                notAccessible: true
-                            };
-                        }
+                    logger.info(`Exception occured while fetch job info from github: ${error.message}`);
+                    /**
+                     * check whether error is Resource not accessible by integration or not
+                     * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                     * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                     * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                     */
+                    if (error &&
+                        error.response &&
+                        error.response.headers &&
+                        error.status &&
+                        ((_a = error.response) === null || _a === void 0 ? void 0 : _a.headers['x-ratelimit-remaining']) !== '0' &&
+                        error.status === 403) {
+                        return {
+                            id: undefined,
+                            name: undefined,
+                            notAccessible: true
+                        };
                     }
                 }
                 if (!result) {
