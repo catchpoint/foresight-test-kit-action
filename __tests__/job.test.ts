@@ -1,4 +1,4 @@
-import {RequestError} from "@octokit/request-error";
+import {RequestError} from '@octokit/request-error'
 import * as path from 'path'
 import {Octokit} from '@octokit/action'
 import {expect, jest} from '@jest/globals'
@@ -6,8 +6,8 @@ describe('JOB INFO', () => {
     afterEach(() => {
         process.env['FORESIGHT_WORKFLOW_JOB_ID'] = ''
         process.env['FORESIGHT_WORKFLOW_JOB_NAME'] = ''
-        jest.clearAllMocks();
-    });
+        jest.clearAllMocks()
+    })
     beforeAll(() => {
         process.env['GITHUB_EVENT_PATH'] = 'test_path'
         process.env['GITHUB_EVENT_NAME'] = 'test_event'
@@ -58,10 +58,10 @@ describe('JOB INFO', () => {
             .spyOn(octokit.rest.actions, 'listJobsForWorkflowRun')
             .mockImplementation((data: any) => {
                 const error = new RequestError('', 403, {
-                    request: { url: '', headers: {}, method: 'PATCH' },
-                    response: { data: null, headers: {}, status: 403, url: '' }
-                });
-                throw error;
+                    request: {url: '', headers: {}, method: 'PATCH'},
+                    response: {data: null, headers: {}, status: 403, url: ''}
+                })
+                throw error
             })
         const job = await jobInfo.getJobInfo(octokit)
         expect(job.id).toEqual(undefined)
@@ -84,16 +84,13 @@ describe('JOB INFO', () => {
             .spyOn(octokit.rest.actions, 'listJobsForWorkflowRun')
             .mockImplementation((data: any) => {
                 const error = new RequestError('', 404, {
-                    request: { url: '', headers: {}, method: 'PATCH' },
-                    response: { data: null, headers: {}, status: 404, url: '' }
-                });
-                throw error;
+                    request: {url: '', headers: {}, method: 'PATCH'},
+                    response: {data: null, headers: {}, status: 404, url: ''}
+                })
+                throw error
             })
         const job = await jobInfo.getJobInfo(octokit)
         expect(job).toEqual(undefined)
         mockListWorkflow.mockRestore()
-    },15000)
-
-
+    }, 15000)
 })
-
