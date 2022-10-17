@@ -4,13 +4,14 @@ import * as logger from './logger'
 import {FORESIGHT_WORKFLOW_ENV_VARS} from '../constants'
 import {JobInfo} from '../interfaces'
 import {Octokit} from '@octokit/action'
-import {RequestError} from '@octokit/request-error'
 
 const PAGE_SIZE = 100
 const {repo, runId} = github.context
 logger.debug(`repo: ${repo.owner}, runId: ${runId}`)
 
-export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
+export async function getJobInfo(
+    octokit: Octokit
+): Promise<JobInfo | undefined> {
     const condition = true
     const _getJobInfo = async (): Promise<JobInfo> => {
         for (let page = 0; condition; page++) {
@@ -26,8 +27,8 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                 })
             } catch (error: any) {
                 result = undefined
-                logger.info(
-                    `Exception occured while fetch job info from github: ${error.message}`
+                logger.debug(
+                    `Exception occured while fetching job info from github: ${error.message}`
                 )
                 /**
                  * check whether error is Resource not accessible by integration or not
@@ -40,7 +41,7 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                     error.response &&
                     error.response.headers &&
                     error.status &&
-                    error.response?.headers['x-ratelimit-remaining'] !== '0' &&
+                    error.response.headers['x-ratelimit-remaining'] !== '0' &&
                     error.status === 403
                 ) {
                     return {
@@ -90,18 +91,21 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
         }
         await new Promise(r => setTimeout(r, 1000))
     }
-    return {}
+    return undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function setJobInfoEnvVar(jobInfo: JobInfo) {
-    if (jobInfo.id !== undefined) {
+    if (!jobInfo) {
+        return
+    }
+    if (jobInfo.id) {
         core.exportVariable(
             FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID,
             jobInfo.id
         )
     }
-    if (jobInfo.id !== undefined) {
+    if (jobInfo.name) {
         core.exportVariable(
             FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME,
             jobInfo.name
