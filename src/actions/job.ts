@@ -9,7 +9,9 @@ const PAGE_SIZE = 100
 const {repo, runId} = github.context
 logger.debug(`repo: ${repo.owner}, runId: ${runId}`)
 
-export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
+export async function getJobInfo(
+    octokit: Octokit
+): Promise<JobInfo | undefined> {
     const condition = true
     const _getJobInfo = async (): Promise<JobInfo> => {
         for (let page = 0; condition; page++) {
@@ -23,8 +25,31 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
                     per_page: PAGE_SIZE,
                     page
                 })
-            } catch (error) {
+            } catch (error: any) {
                 result = undefined
+                /**
+                 * check whether error is Resource not accessible by integration or not
+                 * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                 * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                 * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                 */
+                if (
+                    error &&
+                    error.response &&
+                    error.response.headers &&
+                    error.status &&
+                    error.response.headers['x-ratelimit-remaining'] !== '0' &&
+                    error.status === 403
+                ) {
+                    logger.debug(
+                        `Exception occured while fetching job info from github: ${error.message}`
+                    )
+                    return {
+                        id: undefined,
+                        name: undefined,
+                        notAccessible: true
+                    }
+                }
             }
             if (!result) {
                 break
@@ -58,22 +83,32 @@ export async function getJobInfo(octokit: Octokit): Promise<JobInfo> {
     }
     for (let i = 0; i < 10; i++) {
         const currentJobInfo = await _getJobInfo()
-        if (currentJobInfo && currentJobInfo.id) {
+        if (
+            currentJobInfo &&
+            (currentJobInfo.id || currentJobInfo.notAccessible === true)
+        ) {
             return currentJobInfo
         }
         await new Promise(r => setTimeout(r, 1000))
     }
-    return {}
+    return undefined
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export async function setJobInfoEnvVar(jobInfo: JobInfo) {
-    core.exportVariable(
-        FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID,
-        jobInfo.id
-    )
-    core.exportVariable(
-        FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME,
-        jobInfo.name
-    )
+    if (!jobInfo) {
+        return
+    }
+    if (jobInfo.id) {
+        core.exportVariable(
+            FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID,
+            jobInfo.id
+        )
+    }
+    if (jobInfo.name) {
+        core.exportVariable(
+            FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME,
+            jobInfo.name
+        )
+    }
 }

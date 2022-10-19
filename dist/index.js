@@ -118,6 +118,25 @@ function getJobInfo(octokit) {
                 }
                 catch (error) {
                     result = undefined;
+                    /**
+                     * check whether error is Resource not accessible by integration or not
+                     * if error status equals to 403 it might be 2 different error RateLimitError or ResourceNotAccessible
+                     * if error status=403 and x-ratelimit-remaining = 0 error must be RateLimitError other
+                     * else if status=403 and x-ratelimit-remaining != 0 we assume that error is ResourceNotAccessible
+                     */
+                    if (error &&
+                        error.response &&
+                        error.response.headers &&
+                        error.status &&
+                        error.response.headers['x-ratelimit-remaining'] !== '0' &&
+                        error.status === 403) {
+                        logger.debug(`Exception occured while fetching job info from github: ${error.message}`);
+                        return {
+                            id: undefined,
+                            name: undefined,
+                            notAccessible: true
+                        };
+                    }
                 }
                 if (!result) {
                     break;
@@ -148,20 +167,28 @@ function getJobInfo(octokit) {
         });
         for (let i = 0; i < 10; i++) {
             const currentJobInfo = yield _getJobInfo();
-            if (currentJobInfo && currentJobInfo.id) {
+            if (currentJobInfo &&
+                (currentJobInfo.id || currentJobInfo.notAccessible === true)) {
                 return currentJobInfo;
             }
             yield new Promise(r => setTimeout(r, 1000));
         }
-        return {};
+        return undefined;
     });
 }
 exports.getJobInfo = getJobInfo;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function setJobInfoEnvVar(jobInfo) {
     return __awaiter(this, void 0, void 0, function* () {
-        core.exportVariable(constants_1.FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID, jobInfo.id);
-        core.exportVariable(constants_1.FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME, jobInfo.name);
+        if (!jobInfo) {
+            return;
+        }
+        if (jobInfo.id) {
+            core.exportVariable(constants_1.FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_ID, jobInfo.id);
+        }
+        if (jobInfo.name) {
+            core.exportVariable(constants_1.FORESIGHT_WORKFLOW_ENV_VARS.FORESIGHT_WORKFLOW_JOB_NAME, jobInfo.name);
+        }
     });
 }
 exports.setJobInfoEnvVar = setJobInfoEnvVar;
@@ -441,11 +468,11 @@ function run() {
         try {
             logger.info('Start getting job info...');
             const jobInfo = yield (0, job_1.getJobInfo)(octokit);
-            logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
-            if (!jobInfo.id || !jobInfo.name) {
-                logger.notice("Workflow job information couldn't retrieved!");
+            if (!jobInfo) {
+                logger.error(`Job info could not be obtained from github!`);
                 return;
             }
+            logger.debug(`jobInfo: ${jobInfo.id}, ${jobInfo.name}`);
             const { repo, runId } = github.context;
             const apiKeyInfo = yield (0, utils_1.getApiKey)(repo.owner, repo.repo, runId);
             if (apiKeyInfo == null || apiKeyInfo.apiKey == null) {
