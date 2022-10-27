@@ -23,7 +23,8 @@ Foresight analyzes your test and coverage report artifacts.
 |PYTEST|JUNIT|
 |XUNIT2|n/a*|
 |XUNIT2|TRX|
-|GOLANG|n/a*|
+|GOLANG|JSON|
+|GOLANG|TEXT|
 
 > **_NOTE:_** ⚠️ You don't need to fill report format fields marked as **n/a**.
 
@@ -34,6 +35,7 @@ Foresight analyzes your test and coverage report artifacts.
 |JACOCO/XML|
 |COBERTURA/XML|
 |GOLANG|
+|LCOV/TXT|
 
 ## Usage
 
