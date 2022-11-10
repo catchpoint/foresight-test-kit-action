@@ -33,6 +33,9 @@ const cliVersion: string = core.getInput('cli_version', {required: false})
 const workingDirectory: string = core.getInput('working_directory', {
     required: false
 })
+const tags: string[] = core.getMultilineInput('tags', {
+    required: false
+})
 
 validateInputs(
     testFormat,
@@ -79,7 +82,8 @@ async function run(): Promise<void> {
                     FRAMEWORK_TYPES.TEST,
                     testPath,
                     testFramework,
-                    testFormat
+                    testFormat,
+                    tags
                 )
                 await runCli.runCommand(command, options)
             } catch (error) {

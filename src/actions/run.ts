@@ -28,7 +28,8 @@ export async function generateCliCommand(
     frameworkType: string,
     paths: string[],
     framework: string,
-    format: string | undefined
+    format: string | undefined,
+    tags?: string[]
 ) {
     let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
@@ -51,6 +52,9 @@ export async function generateCliCommand(
     }
     for (const path of paths) {
         command += ` --uploadDir=${path}`
+    }
+    for (const tag of tags || []) {
+        command += ` --tags=${tag}`
     }
     return command
 }
