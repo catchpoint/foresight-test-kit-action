@@ -54,7 +54,7 @@ export async function generateCliCommand(
         command += ` --uploadDir=${path}`
     }
     for (const tag of tags || []) {
-        command += ` --tags=${tag}`
+        command += ` --tag=${tag}`
     }
     return command
 }
