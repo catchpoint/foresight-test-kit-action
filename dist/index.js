@@ -329,7 +329,7 @@ function generateCliCommand(apiKey, frameworkType, paths, framework, format, tag
             command += ` --uploadDir=${path}`;
         }
         for (const tag of tags || []) {
-            command += ` --tags=${tag}`;
+            command += ` --tag=${tag}`;
         }
         return command;
     });
