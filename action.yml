@@ -41,6 +41,10 @@ inputs:
     description: "Foresight Working Directory"
     default: ''
     required: false
+  tags:
+    description: "Foresight Test Kit Tags"
+    default: ''
+    required: false
 runs:
   using: "node16"
   main: "dist/index.js"

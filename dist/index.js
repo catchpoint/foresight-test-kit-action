@@ -303,7 +303,7 @@ function runCommand(command, options) {
 }
 exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
-function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
+function generateCliCommand(apiKey, frameworkType, paths, framework, format, tags) {
     return __awaiter(this, void 0, void 0, function* () {
         let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
@@ -327,6 +327,9 @@ function generateCliCommand(apiKey, frameworkType, paths, framework, format) {
         }
         for (const path of paths) {
             command += ` --uploadDir=${path}`;
+        }
+        for (const tag of tags || []) {
+            command += ` --tag=${tag}`;
         }
         return command;
     });
@@ -461,6 +464,9 @@ const cliVersion = core.getInput('cli_version', { required: false });
 const workingDirectory = core.getInput('working_directory', {
     required: false
 });
+const tags = core.getMultilineInput('tags', {
+    required: false
+});
 (0, inputs_1.validateInputs)(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
 const octokit = new action_1.Octokit();
 function run() {
@@ -490,7 +496,7 @@ function run() {
             };
             if (testFramework && testPath.length > 0) {
                 try {
-                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat);
+                    const command = yield runCli.generateCliCommand(apiKey, constants_1.FRAMEWORK_TYPES.TEST, testPath, testFramework, testFormat, tags);
                     yield runCli.runCommand(command, options);
                 }
                 catch (error) {
