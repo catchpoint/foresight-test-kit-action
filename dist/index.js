@@ -500,7 +500,7 @@ function run() {
                     yield runCli.runCommand(command, options);
                 }
                 catch (error) {
-                    logger.error("Test results couldn't retrieved!");
+                    logger.error(`Test results couldn't retrieved: ${error.message}`);
                 }
             }
             if (coverageFormat && coveragePath.length > 0) {
@@ -509,12 +509,12 @@ function run() {
                     yield runCli.runCommand(command, options);
                 }
                 catch (error) {
-                    logger.error("Coverage results couldn't retrieved!");
+                    logger.error(`Coverage results couldn't retrieved: ${error.message}`);
                 }
             }
         }
         catch (error) {
-            logger.error('Unexpected error occured: ' + error.message);
+            logger.error(`Unexpected error occurred: ${error.message}`);
             logger.warning(`If error is related to permissions, please be sure that your workflow have actions:read permission!`);
         }
     });
