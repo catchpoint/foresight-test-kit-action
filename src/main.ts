@@ -86,8 +86,10 @@ async function run(): Promise<void> {
                     tags
                 )
                 await runCli.runCommand(command, options)
-            } catch (error) {
-                logger.error("Test results couldn't retrieved!")
+            } catch (error: any) {
+                logger.error(
+                    `Test results couldn't retrieved: ${error.message}`
+                )
             }
         }
         if (coverageFormat && coveragePath.length > 0) {
@@ -100,12 +102,14 @@ async function run(): Promise<void> {
                     coverageFormat
                 )
                 await runCli.runCommand(command, options)
-            } catch (error) {
-                logger.error("Coverage results couldn't retrieved!")
+            } catch (error: any) {
+                logger.error(
+                    `Coverage results couldn't retrieved: ${error.message}`
+                )
             }
         }
     } catch (error: any) {
-        logger.error('Unexpected error occured: ' + error.message)
+        logger.error(`Unexpected error occurred: ${error.message}`)
         logger.warning(
             `If error is related to permissions, please be sure that your workflow have actions:read permission!`
         )
