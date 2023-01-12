@@ -365,9 +365,10 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getForesightCliPrefix = exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
+exports.getForesightCliPrefix = exports.createForesightCliFolder = exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 const core = __importStar(__nccwpck_require__(2186));
+const fs = __importStar(__nccwpck_require__(5747));
 const path = __importStar(__nccwpck_require__(5622));
 function exitProcessSuccessfully() {
     process.exit(core.ExitCode.Success);
@@ -375,9 +376,16 @@ function exitProcessSuccessfully() {
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
     const prefix = getForesightCliPrefix();
-    return `mkdir ${prefix} && npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`;
+    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`;
 }
 exports.installationCommandOfCli = installationCommandOfCli;
+function createForesightCliFolder() {
+    const prefix = getForesightCliPrefix();
+    if (!fs.existsSync(prefix)) {
+        fs.mkdirSync(prefix);
+    }
+}
+exports.createForesightCliFolder = createForesightCliFolder;
 function getForesightCliPrefix() {
     return path.join(process.cwd(), 'foresight-cli');
 }
@@ -497,6 +505,7 @@ function run() {
             logger.info(`Env vars set!`);
             logger.debug(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.debug(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
+            utils.createForesightCliFolder();
             yield runCli.runCommand(utils.installationCommandOfCli(cliVersion));
             const options = {
                 workingDirectory

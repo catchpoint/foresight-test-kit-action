@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 import * as core from '@actions/core'
+import * as fs from 'fs'
 import * as path from 'path'
 
 export function exitProcessSuccessfully() {
@@ -8,7 +9,14 @@ export function exitProcessSuccessfully() {
 
 export function installationCommandOfCli(version: string) {
     const prefix: string = getForesightCliPrefix()
-    return `mkdir ${prefix} && npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`
+    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`
+}
+
+export function createForesightCliFolder() {
+    const prefix: string = getForesightCliPrefix()
+    if (!fs.existsSync(prefix)) {
+        fs.mkdirSync(prefix)
+    }
 }
 
 export function getForesightCliPrefix() {
