@@ -376,7 +376,7 @@ function exitProcessSuccessfully() {
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
     const prefix = getForesightCliPrefix();
-    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`;
+    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --cwd ${prefix} --no-save`;
 }
 exports.installationCommandOfCli = installationCommandOfCli;
 function createForesightCliFolder() {
@@ -391,7 +391,7 @@ function getForesightCliPrefix() {
 }
 exports.getForesightCliPrefix = getForesightCliPrefix;
 function getScriptFullPath() {
-    return path.join(process.cwd(), 'foresight-cli', "node_modules", "@runforesight", "foresight-cli", "dist", "index.js");
+    return path.join(process.cwd(), 'foresight-cli', 'node_modules', '@runforesight', 'foresight-cli', 'dist', 'index.js');
 }
 exports.getScriptFullPath = getScriptFullPath;
 

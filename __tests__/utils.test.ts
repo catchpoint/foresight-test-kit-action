@@ -7,7 +7,7 @@ describe('Utils', () => {
         const command = await utils.installationCommandOfCli('latest')
         const prefix: string = utils.getForesightCliPrefix()
         expect(command).toEqual(
-            `npm install @runforesight/foresight-cli@latest --prefix ${prefix} --no-save`
+            `npm install @runforesight/foresight-cli@latest --prefix ${prefix} --cwd ${prefix} --no-save`
         )
     })
 
@@ -15,7 +15,7 @@ describe('Utils', () => {
         const prefix: string = utils.getForesightCliPrefix()
         const command = await utils.installationCommandOfCli('0.0.5')
         expect(command).toEqual(
-            `npm install @runforesight/foresight-cli@0.0.5 --prefix ${prefix} --no-save`
+            `npm install @runforesight/foresight-cli@0.0.5 --prefix ${prefix} --cwd ${prefix} --no-save`
         )
     })
 
