@@ -9,7 +9,7 @@ export function exitProcessSuccessfully() {
 
 export function installationCommandOfCli(version: string) {
     const prefix: string = getForesightCliPrefix()
-    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --cwd ${prefix} --no-save`
+    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} ${prefix} --no-save`
 }
 
 export function createForesightCliFolder() {

@@ -376,7 +376,7 @@ function exitProcessSuccessfully() {
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
 function installationCommandOfCli(version) {
     const prefix = getForesightCliPrefix();
-    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --cwd ${prefix} --no-save`;
+    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} ${prefix} --no-save`;
 }
 exports.installationCommandOfCli = installationCommandOfCli;
 function createForesightCliFolder() {
