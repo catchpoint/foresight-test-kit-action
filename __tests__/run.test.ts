@@ -15,7 +15,7 @@ describe('Generate Cli Commands', () => {
         )
         const fullPath: string = getScriptFullPath()
         expect(command).toEqual(
-            `${fullPath} upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
+            `node ${fullPath} upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -29,7 +29,7 @@ describe('Generate Cli Commands', () => {
         )
         const fullPath: string = getScriptFullPath()
         expect(command).toEqual(
-            `${fullPath} upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
+            `node ${fullPath} upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
         )
     })
 

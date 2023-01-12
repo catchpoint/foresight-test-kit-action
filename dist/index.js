@@ -306,7 +306,7 @@ exports.runCommand = runCommand;
 function generateCliCommand(apiKey, frameworkType, paths, framework, format, tags) {
     return __awaiter(this, void 0, void 0, function* () {
         const scriptPath = (0, utils_1.getScriptFullPath)();
-        let command = `${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
+        let command = `node ${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
             case constants_1.FRAMEWORK_TYPES.TEST:
                 command += ` --framework=${framework.toUpperCase()}`;

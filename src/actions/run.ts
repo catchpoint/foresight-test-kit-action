@@ -32,7 +32,7 @@ export async function generateCliCommand(
     tags?: string[]
 ) {
     const scriptPath: string = getScriptFullPath()
-    let command = `${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`
+    let command = `node ${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
         case FRAMEWORK_TYPES.TEST:
             command += ` --framework=${framework.toUpperCase()}`
