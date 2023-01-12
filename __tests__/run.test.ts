@@ -2,6 +2,7 @@ import {expect, jest} from '@jest/globals'
 import * as run from '../src/actions/run'
 import * as exec from '@actions/exec'
 import {FRAMEWORK_TYPES} from '../src/constants'
+import {getForesightCliPrefix} from '../src/actions/utils'
 
 describe('Generate Cli Commands', () => {
     it('tests for generating upload test command', async () => {
@@ -12,8 +13,9 @@ describe('Generate Cli Commands', () => {
             'pytest',
             'junit'
         )
+        const prefix: string = getForesightCliPrefix()
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
+            `${prefix}/node_modules/@runforesight/foresight-cli/dist/index.js upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -25,8 +27,9 @@ describe('Generate Cli Commands', () => {
             '',
             'JACOCO/XML'
         )
+        const prefix: string = getForesightCliPrefix()
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
+            `${prefix}/node_modules/@runforesight/foresight-cli/dist/index.js upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
         )
     })
 
