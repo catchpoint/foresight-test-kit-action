@@ -13,7 +13,7 @@ describe('Generate Cli Commands', () => {
             'junit'
         )
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
+            `${process.cwd}/foresight-cli/node_modules/@runforesight/foresight-cli/dist/index.js upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -26,7 +26,7 @@ describe('Generate Cli Commands', () => {
             'JACOCO/XML'
         )
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
+            `${process.cwd}/foresight-cli/node_modules/@runforesight/foresight-cli/dist/index.js upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
         )
     })
 

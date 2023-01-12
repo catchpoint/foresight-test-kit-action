@@ -31,7 +31,9 @@ export async function generateCliCommand(
     format: string | undefined,
     tags?: string[]
 ) {
-    let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
+    let command = `${
+        process.cwd
+    }/foresight-cli/node_modules/@runforesight/foresight-cli/dist/index.js upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
         case FRAMEWORK_TYPES.TEST:
             command += ` --framework=${framework.toUpperCase()}`

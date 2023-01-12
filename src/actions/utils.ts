@@ -6,5 +6,5 @@ export function exitProcessSuccessfully() {
 }
 
 export function installationCommandOfCli(version: string) {
-    return `npm install -g @runforesight/foresight-cli@${version}`
+    return `mkdir ${process.cwd}/foresight-cli && npm install @runforesight/foresight-cli@${version} --prefix ${process.cwd}/foresight-cli --no-save`
 }
