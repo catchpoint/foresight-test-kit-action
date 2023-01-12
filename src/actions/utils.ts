@@ -22,3 +22,15 @@ export function createForesightCliFolder() {
 export function getForesightCliPrefix() {
     return path.join(process.cwd(), 'foresight-cli')
 }
+
+export function getScriptFullPath() {
+    return path.join(
+        process.cwd(),
+        'foresight-cli',
+        'node_modules',
+        '@runforesight',
+        'foresight-cli',
+        'dist',
+        'index.js'
+    )
+}

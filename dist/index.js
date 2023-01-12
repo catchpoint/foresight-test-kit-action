@@ -305,8 +305,8 @@ exports.runCommand = runCommand;
 // eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 function generateCliCommand(apiKey, frameworkType, paths, framework, format, tags) {
     return __awaiter(this, void 0, void 0, function* () {
-        const prefix = (0, utils_1.getForesightCliPrefix)();
-        let command = `${prefix}/node_modules/@runforesight/foresight-cli/dist/index.js upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
+        const scriptPath = (0, utils_1.getScriptFullPath)();
+        let command = `${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`;
         switch (frameworkType.toLowerCase()) {
             case constants_1.FRAMEWORK_TYPES.TEST:
                 command += ` --framework=${framework.toUpperCase()}`;
@@ -365,7 +365,7 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", ({ value: true }));
-exports.getForesightCliPrefix = exports.createForesightCliFolder = exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
+exports.getScriptFullPath = exports.getForesightCliPrefix = exports.createForesightCliFolder = exports.installationCommandOfCli = exports.exitProcessSuccessfully = void 0;
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 const core = __importStar(__nccwpck_require__(2186));
 const fs = __importStar(__nccwpck_require__(5747));
@@ -390,6 +390,10 @@ function getForesightCliPrefix() {
     return path.join(process.cwd(), 'foresight-cli');
 }
 exports.getForesightCliPrefix = getForesightCliPrefix;
+function getScriptFullPath() {
+    return path.join(process.cwd(), 'foresight-cli', "node_modules", "@runforesight", "foresight-cli", "dist", "index.js");
+}
+exports.getScriptFullPath = getScriptFullPath;
 
 
 /***/ }),
