@@ -71,6 +71,7 @@ async function run(): Promise<void> {
         logger.debug(
             `FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`
         )
+        utils.createForesightCliFolder()
         await runCli.runCommand(utils.installationCommandOfCli(cliVersion))
         const options: RunCommandOptions = {
             workingDirectory

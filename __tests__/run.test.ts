@@ -2,6 +2,7 @@ import {expect, jest} from '@jest/globals'
 import * as run from '../src/actions/run'
 import * as exec from '@actions/exec'
 import {FRAMEWORK_TYPES} from '../src/constants'
+import {getScriptFullPath} from '../src/actions/utils'
 
 describe('Generate Cli Commands', () => {
     it('tests for generating upload test command', async () => {
@@ -12,8 +13,9 @@ describe('Generate Cli Commands', () => {
             'pytest',
             'junit'
         )
+        const fullPath: string = getScriptFullPath()
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
+            `node ${fullPath} upload-${FRAMEWORK_TYPES.TEST} -a api_key --framework=PYTEST --format=JUNIT --uploadDir=./reports --uploadDir=./target`
         )
     })
 
@@ -25,8 +27,9 @@ describe('Generate Cli Commands', () => {
             '',
             'JACOCO/XML'
         )
+        const fullPath: string = getScriptFullPath()
         expect(command).toEqual(
-            `foresight-cli upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
+            `node ${fullPath} upload-${FRAMEWORK_TYPES.COVERAGE} -a api_key --format=JACOCO/XML --uploadDir=./reports --uploadDir=./targets/**`
         )
     })
 

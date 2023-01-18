@@ -1,7 +1,7 @@
 import * as exec from '@actions/exec'
 import * as logger from './logger'
+import {exitProcessSuccessfully, getScriptFullPath} from './utils'
 import {FRAMEWORK_TYPES} from '../constants'
-import {exitProcessSuccessfully} from './utils'
 
 export interface RunCommandOptions {
     args?: string[]
@@ -31,7 +31,8 @@ export async function generateCliCommand(
     format: string | undefined,
     tags?: string[]
 ) {
-    let command = `foresight-cli upload-${frameworkType.toLowerCase()} -a ${apiKey}`
+    const scriptPath: string = getScriptFullPath()
+    let command = `node ${scriptPath} upload-${frameworkType.toLowerCase()} -a ${apiKey}`
     switch (frameworkType.toLowerCase()) {
         case FRAMEWORK_TYPES.TEST:
             command += ` --framework=${framework.toUpperCase()}`
