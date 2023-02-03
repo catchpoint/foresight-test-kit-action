@@ -1,4 +1,4 @@
-name: build-test-kit
+name: Build test-kit
 
 on:
   pull_request:
