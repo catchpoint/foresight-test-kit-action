@@ -1,4 +1,4 @@
-name: Release test-kit
+name: release-test-kit
 
 on:
   workflow_dispatch:
