@@ -1,6 +1,6 @@
 {
   "name": "foresight-test-kit-action",
-  "version": "1.3.3",
+  "version": "1.3.4",
   "private": false,
   "description": "Foresight Test and Coverage Analyzer",
   "main": "lib/main.js",
