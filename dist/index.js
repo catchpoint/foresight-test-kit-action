@@ -450,6 +450,9 @@ var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, ge
         step((generator = generator.apply(thisArg, _arguments || [])).next());
     });
 };
+var __importDefault = (this && this.__importDefault) || function (mod) {
+    return (mod && mod.__esModule) ? mod : { "default": mod };
+};
 Object.defineProperty(exports, "__esModule", ({ value: true }));
 const core = __importStar(__nccwpck_require__(2186));
 const github = __importStar(__nccwpck_require__(5438));
@@ -461,6 +464,8 @@ const constants_1 = __nccwpck_require__(7306);
 const action_1 = __nccwpck_require__(1231);
 const inputs_1 = __nccwpck_require__(266);
 const utils_1 = __nccwpck_require__(918);
+const https_1 = __importDefault(__nccwpck_require__(7211));
+const DEFAULT_GITHUB_API_URL = 'https://api.github.com';
 const testFramework = core.getInput('test_framework', {
     required: false
 });
@@ -487,7 +492,19 @@ const tags = core.getMultilineInput('tags', {
     required: false
 });
 (0, inputs_1.validateInputs)(testFormat, testFramework, testPath, coverageFormat, coveragePath, actionDisabled);
-const octokit = new action_1.Octokit();
+const octokit = createOctokit();
+function createOctokit() {
+    const apiURL = process.env.GITHUB_API_URL || DEFAULT_GITHUB_API_URL;
+    // Disable certificate check for self-hosted Github environments
+    const rejectUnauthorized = apiURL === DEFAULT_GITHUB_API_URL;
+    const customAgent = new https_1.default.Agent({ rejectUnauthorized });
+    return new action_1.Octokit({
+        baseUrl: apiURL,
+        request: {
+            agent: customAgent
+        }
+    });
+}
 function run() {
     return __awaiter(this, void 0, void 0, function* () {
         try {

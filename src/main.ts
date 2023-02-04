@@ -9,6 +9,9 @@ import {Octokit} from '@octokit/action'
 import {validateInputs} from './actions/inputs'
 import {RunCommandOptions} from './actions/run'
 import {getApiKey} from './utils'
+import https from 'https'
+
+const DEFAULT_GITHUB_API_URL = 'https://api.github.com'
 
 const testFramework: string = core.getInput('test_framework', {
     required: false
@@ -45,7 +48,20 @@ validateInputs(
     coveragePath,
     actionDisabled
 )
-const octokit: Octokit = new Octokit()
+const octokit: Octokit = createOctokit()
+
+function createOctokit(): Octokit {
+    const apiURL: string = process.env.GITHUB_API_URL || DEFAULT_GITHUB_API_URL
+    // Disable certificate check for self-hosted Github environments
+    const rejectUnauthorized = apiURL === DEFAULT_GITHUB_API_URL
+    const customAgent: https.Agent = new https.Agent({rejectUnauthorized})
+    return new Octokit({
+        baseUrl: apiURL,
+        request: {
+            agent: customAgent
+        }
+    })
+}
 
 async function run(): Promise<void> {
     try {
