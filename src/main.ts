@@ -32,6 +32,7 @@ const actionDisabled: boolean = core.getBooleanInput('disable_action', {
     required: false
 })
 const cliVersion: string = core.getInput('cli_version', {required: false})
+const cliTag: string = core.getInput('cli_tag', {required: false})
 
 const workingDirectory: string = core.getInput('working_directory', {
     required: false
@@ -88,7 +89,9 @@ async function run(): Promise<void> {
             `FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`
         )
         utils.createForesightCliFolder()
-        await runCli.runCommand(utils.installationCommandOfCli(cliVersion))
+        await runCli.runCommand(
+            utils.installationCommandOfCli(cliVersion, cliTag)
+        )
         const options: RunCommandOptions = {
             workingDirectory
         }
