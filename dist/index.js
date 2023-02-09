@@ -374,9 +374,17 @@ function exitProcessSuccessfully() {
     process.exit(core.ExitCode.Success);
 }
 exports.exitProcessSuccessfully = exitProcessSuccessfully;
-function installationCommandOfCli(version) {
+function installationCommandOfCli(version, tag) {
     const prefix = getForesightCliPrefix();
-    return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`;
+    if (tag) {
+        // We use `npm install <package-name> --tag <tag>` style instead of `npm install <package-name>@<tag>`.
+        // Because, tag name may contain characters which are not supported
+        // in the `npm install <package-name>@<tag>` style.
+        return `npm install @runforesight/foresight-cli --tag ${tag} --prefix ${prefix} --no-save`;
+    }
+    else {
+        return `npm install @runforesight/foresight-cli@${version} --prefix ${prefix} --no-save`;
+    }
 }
 exports.installationCommandOfCli = installationCommandOfCli;
 function createForesightCliFolder() {
@@ -485,6 +493,7 @@ const actionDisabled = core.getBooleanInput('disable_action', {
     required: false
 });
 const cliVersion = core.getInput('cli_version', { required: false });
+const cliTag = core.getInput('cli_tag', { required: false });
 const workingDirectory = core.getInput('working_directory', {
     required: false
 });
@@ -527,7 +536,7 @@ function run() {
             logger.debug(`FORESIGHT_WORKFLOW_JOB_ID: ${process.env.FORESIGHT_WORKFLOW_JOB_ID}`);
             logger.debug(`FORESIGHT_WORKFLOW_JOB_NAME: ${process.env.FORESIGHT_WORKFLOW_JOB_NAME}`);
             utils.createForesightCliFolder();
-            yield runCli.runCommand(utils.installationCommandOfCli(cliVersion));
+            yield runCli.runCommand(utils.installationCommandOfCli(cliVersion, cliTag));
             const options = {
                 workingDirectory
             };

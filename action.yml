@@ -37,6 +37,9 @@ inputs:
     description: "Foresight CLI Version"
     default: latest
     required: false
+  cli_tag:
+    description: "Foresight CLI Tag"
+    required: false
   working_directory:
     description: "Foresight Working Directory"
     default: ''
